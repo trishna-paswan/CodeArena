@@ -1,0 +1,287 @@
+/* General Body Styles */
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #87CEEB; /* Sky Blue */
+    color: #333;
+    text-align: center;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Header and Footer */
+header, footer {
+    background-color: #fff;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 5px solid #FFD700; /* Sunny Yellow */
+}
+
+.logo a {
+    text-decoration: none;
+    color: #333;
+}
+
+.logo h1 {
+    margin: 0;
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 2.5rem;
+    color: #FF6347; /* Candy Apple Red */
+    text-shadow: 2px 2px #FFD700; /* Sunny Yellow */
+}
+
+footer {
+    margin-top: auto;
+    font-size: 0.9rem;
+    color: #666;
+    border-top: 5px solid #FFD700; /* Sunny Yellow */
+}
+
+/* Landing Page */
+.landing h1 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 4.5rem;
+    color: #FF6347; /* Candy Apple Red */
+    text-shadow: 3px 3px #FFD700;
+}
+
+.landing p {
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    margin-bottom: 2.5rem;
+}
+
+button {
+    padding: 15px 35px;
+    font-size: 22px;
+    cursor: pointer;
+    border-radius: 50px;
+    border: 3px solid #fff;
+    background: #FF6347; /* Candy Apple Red */
+    color: white;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    background: #FF4500; /* Lighter Red */
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.bounce {
+  animation: bounce 2s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* Game Selection Page */
+.game-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 2rem;
+}
+
+.game-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 20px;
+    border: 5px solid #FFD700; /* Sunny Yellow */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    width: 320px;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+}
+
+.game-card:hover {
+    transform: translateY(-15px) rotate(3deg);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.25);
+}
+
+.game-card h2 {
+    font-family: 'Luckiest Guy', cursive;
+    color: #7CFC00; /* Grass Green */
+    font-size: 2rem;
+    margin-top: 0;
+    text-shadow: 2px 2px #8A2BE2; /* Royal Purple */
+}
+
+.game-card.disabled {
+    cursor: not-allowed;
+    background: #e9ecef;
+    border-color: #D3D3D3;
+    transform: none;
+    box-shadow: none;
+}
+
+.game-card.disabled h2 {
+    color: #6c757d;
+    text-shadow: none;
+}
+
+/* Algorithm Game Page */
+.game-page h1 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 2.8rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    margin-bottom: 0.5rem;
+}
+
+.game-page p {
+    margin-bottom: 2rem;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.game-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin: 40px auto;
+    max-width: 900px;
+}
+
+.steps-container, .drop-area-container {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    width: 350px;
+    border: 5px solid #FFA500; /* Vibrant Orange */
+}
+
+h3 {
+    margin-top: 0;
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 1.8rem;
+    color: #8A2BE2; /* Royal Purple */
+}
+
+.step {
+    background: #FFC0CB; /* Bubblegum Pink */
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: grab;
+    border: 2px solid #FFA500; /* Vibrant Orange */
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.step:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.step.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.drop-area {
+    border: 3px dashed #7CFC00; /* Grass Green */
+    border-radius: 15px;
+    min-height: 250px;
+    padding: 10px;
+    transition: background-color 0.3s, border-style 0.3s;
+}
+
+.drop-area.drag-over {
+    background-color: #e7f3ff;
+    border-style: solid;
+}
+
+.robot-feedback {
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    border: 5px solid #7CFC00;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    transform: scale(1);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.robot-feedback.success {
+    border-color: #7CFC00; /* Grass Green */
+    transform: scale(1.05);
+}
+
+.robot-feedback.error {
+    border-color: #FF6347; /* Candy Apple Red */
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-5px); }
+  20%, 80% { transform: translateX(5px); }
+  30%, 50%, 70% { transform: translateX(-5px); }
+  40%, 60% { transform: translateX(5px); }
+}
+
+.robot-feedback img {
+    width: 100px;
+    height: 100px;
+    animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.robot-feedback p {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .game-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .steps-container, .drop-area-container {
+        width: 90%;
+    }
+
+    .landing h1 {
+        font-size: 3.5rem;
+    }
+}
