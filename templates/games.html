@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
   <title>CodeArena - Select a Game</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -34,5 +35,155 @@
   </footer>
 
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+=======
+  <title>CodeArena | Game Lobby</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Particle Background */
+    #tsparticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-color: #1a0000;
+      background-image: linear-gradient(to right, #3b0000, #6a040f, #1a0000);
+    }
+
+    /* Glass Effect */
+    .glass-container {
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+
+<body class="text-white antialiased">
+
+  <!-- Particle Canvas -->
+  <div id="tsparticles"></div>
+
+  <!-- Main Content -->
+  <div class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- Header -->
+    <header class="w-full max-w-5xl absolute top-0 left-1/2 -translate-x-1/2 p-4 flex justify-between items-center z-10 glass-container rounded-b-2xl">
+      <div class="logo">
+        <a href="/" class="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-400 transform transition-transform duration-300 hover:scale-105">
+          CodeArena
+        </a>
+      </div>
+    </header>
+
+    <main class="w-full max-w-4xl glass-container p-8 md:p-10 rounded-2xl shadow-2xl z-10">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-400">
+        Game Lobby
+      </h1>
+
+      <div class="game-list grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
+        
+        <div class="game-card glass-container p-6 rounded-xl shadow-lg hover:shadow-red-500/30
+                    transition-all duration-300 transform hover:scale-105 cursor-pointer w-full max-w-sm"
+             onclick="selectGame('algorithm')">
+          <h2 class="text-3xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-orange-300">
+            Algorithm Puzzle
+          </h2>
+          <p class="text-gray-300 text-base leading-relaxed">
+            Master the fundamentals of algorithms by solving a tea-making challenge.
+          </p>
+        </div>
+
+        <div class="game-card glass-container p-6 rounded-xl shadow-lg cursor-not-allowed
+                    opacity-60 w-full max-w-sm">
+          <h2 class="text-3xl font-semibold mb-2 text-gray-400">
+            More Challenges Coming Soon
+          </h2>
+          <p class="text-gray-500 text-base leading-relaxed">
+            New arenas are under construction. Stay tuned.
+          </p>
+        </div>
+
+      </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="w-full max-w-5xl absolute bottom-0 left-1/2 -translate-x-1/2 p-4 text-center text-gray-500 text-sm z-10">
+      <p>&copy; 2026 CodeArena. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- tsParticles -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+
+  <script>
+    tsParticles.load("tsparticles", {
+      fpsLimit: 120,
+      interactivity: {
+        events: {
+          onHover: {
+            enable: true,
+            mode: "repulse",
+          },
+          resize: true,
+        },
+        modes: {
+          repulse: {
+            distance: 80,
+            duration: 0.4,
+          },
+        },
+      },
+      particles: {
+        color: { value: "#ff4d4d" },
+
+        links: {
+          color: "#ff4d4d",
+          distance: 150,
+          enable: true,
+          opacity: 0.2,
+          width: 1,
+        },
+
+        move: {
+          enable: true,
+          speed: 1,
+          outModes: { default: "bounce" }
+        },
+
+        number: {
+          density: { enable: true, area: 800 },
+          value: 80,
+        },
+
+        opacity: { value: 0.2 },
+
+        shape: { type: "circle" },
+
+        size: { value: { min: 1, max: 3 } },
+      },
+
+      detectRetina: true,
+    });
+
+    function selectGame(game) {
+      window.location.href = "/game/" + game;
+    }
+  </script>
+
+>>>>>>> c8a7da4 (changes)
 </body>
 </html>

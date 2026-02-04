@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
   <title>Algorithm Puzzle - CodeArena</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -45,5 +46,167 @@
   </footer>
 
   <script src="{{ url_for('static', filename='js/algorithm.js') }}"></script>
+=======
+  <title>CodeArena | Algorithm Challenge</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Particle Background */
+    #tsparticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-color: #1a0000;
+      background-image: linear-gradient(to right, #3b0000, #6a040f, #1a0000);
+    }
+
+    /* Glass Effect */
+    .glass-container {
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Custom styles for draggable steps (Tailwind cannot handle `draggable` attribute styling directly) */
+    .step[draggable="true"] {
+      cursor: grab;
+    }
+  </style>
+</head>
+
+<body class="text-white antialiased">
+
+  <!-- Particle Canvas -->
+  <div id="tsparticles"></div>
+
+  <!-- Main Content Wrapper -->
+  <div class="min-h-screen flex flex-col items-center p-4">
+
+    <!-- Header -->
+    <header class="w-full max-w-5xl absolute top-0 left-1/2 -translate-x-1/2 p-4 flex justify-between items-center z-10 glass-container rounded-b-2xl">
+      <div class="logo">
+        <a href="/" class="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-400 transform transition-transform duration-300 hover:scale-105">
+          CodeArena
+        </a>
+      </div>
+    </header>
+
+    <main class="game-page w-full max-w-5xl mt-20 md:mt-24 mb-10 z-10">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-400 text-center">
+        Challenge: The Algorithm of Tea
+      </h1>
+      <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-center mb-8">
+        Assemble the steps in the correct sequence.
+      </p>
+
+      <div class="game-container flex flex-col lg:flex-row justify-center items-start lg:items-stretch gap-8">
+        
+        <div class="steps-container glass-container p-6 rounded-xl shadow-lg w-full lg:w-1/2">
+          <h3 class="text-2xl font-semibold mb-4 text-gray-200">Available Steps</h3>
+          <div class="available-steps space-y-4">
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl" draggable="true" id="step-sugar">Add sugar</div>
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl" draggable="true" id="step-boil">Boil water</div>
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl" draggable="true" id="step-pour">Pour into cup</div>
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl" draggable="true" id="step-tea">Add tea leaves</div>
+          </div>
+        </div>
+
+        <div class="drop-area-container glass-container p-6 rounded-xl shadow-lg w-full lg:w-1/2">
+          <h3 class="text-2xl font-semibold mb-4 text-gray-200">Your Algorithm</h3>
+          <div class="drop-area min-h-[200px] border-2 border-dashed border-gray-600 rounded-lg p-4 space-y-4 flex flex-col justify-center items-center text-gray-500">
+            Drag steps here
+          </div>
+        </div>
+      </div>
+
+      <button onclick="checkOrder()"
+        class="mt-10 px-8 py-3 rounded-lg bg-red-600 hover:bg-red-500
+               transition-all duration-300 text-lg font-semibold shadow-lg hover:shadow-red-500/40
+               transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-500/50">
+        Execute Algorithm
+      </button>
+
+      <div class="robot-feedback glass-container p-6 rounded-xl shadow-lg flex flex-col md:flex-row items-center justify-center gap-4 mt-10 max-w-2xl mx-auto">
+          <img src="https://api.iconify.design/codicon/terminal-bash.svg?color=%23ff4d4d" alt="Terminal Icon" class="w-12 h-12" />
+        <p id="robot-text" class="text-gray-200 text-lg">Awaiting your solution...</p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-5xl p-4 text-center text-gray-500 text-sm z-10 mt-auto">
+      <p>&copy; 2026 CodeArena. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- tsParticles -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+
+  <script src="{{ url_for('static', filename='js/algorithm.js') }}"></script>
+  <script>
+    tsParticles.load("tsparticles", {
+      fpsLimit: 120,
+      interactivity: {
+        events: {
+          onHover: {
+            enable: true,
+            mode: "repulse",
+          },
+          resize: true,
+        },
+        modes: {
+          repulse: {
+            distance: 80,
+            duration: 0.4,
+          },
+        },
+      },
+      particles: {
+        color: { value: "#ff4d4d" },
+
+        links: {
+          color: "#ff4d4d",
+          distance: 150,
+          enable: true,
+          opacity: 0.2,
+          width: 1,
+        },
+
+        move: {
+          enable: true,
+          speed: 1,
+          outModes: { default: "bounce" }
+        },
+
+        number: {
+          density: { enable: true, area: 800 },
+          value: 80,
+        },
+
+        opacity: { value: 0.2 },
+
+        shape: { type: "circle" },
+
+        size: { value: { min: 1, max: 3 } },
+      },
+
+      detectRetina: true,
+    });
+  </script>
+
+>>>>>>> c8a7da4 (changes)
 </body>
 </html>
