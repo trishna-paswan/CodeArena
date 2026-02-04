@@ -3,29 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-  <title>CodeArena - Learn to Code with Games</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body class="landing">
-  <header>
-    <div class="logo">
-      <h1>CodeArena</h1>
-    </div>
-  </header>
-
-  <main>
-    <h1 class="bounce">Learn Coding Through Games</h1>
-    <p>Because learning to code should be fun and interactive!</p>
-    <button onclick="enterGame()">🚀 Enter Game World</button>
-  </main>
-
-  <footer>
-    <p>&copy; 2026 CodeArena. All rights reserved.</p>
-  </footer>
-
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-=======
   <title>CodeArena | Home</title>
 
   <!-- Tailwind -->
@@ -68,6 +45,15 @@
 
   <!-- Main Content -->
   <div class="min-h-screen flex flex-col items-center justify-center text-center p-4">
+
+    <!-- Header -->
+    <header class="w-full max-w-5xl absolute top-0 left-1/2 -translate-x-1/2 p-4 flex justify-between items-center z-10 glass-container rounded-b-2xl">
+      <div class="logo">
+        <a href="/" class="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-400 transform transition-transform duration-300 hover:scale-105">
+          CodeArena
+        </a>
+      </div>
+    </header>
 
     <div class="glass-container p-8 md:p-12 rounded-2xl shadow-2xl max-w-3xl w-full">
 
@@ -148,6 +134,5 @@
     }
   </script>
 
->>>>>>> c8a7da4 (changes)
 </body>
 </html>

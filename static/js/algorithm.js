@@ -46,17 +46,6 @@ function checkOrder() {
   const robotFeedback = document.getElementById("robot-text");
 
   if (JSON.stringify(userOrder) === JSON.stringify(correctOrder)) {
-<<<<<<< HEAD
-    robotFeedback.innerHTML = " PERFECT! You've created a correct algorithm. An algorithm is just a set of steps to complete a task. You're a natural! ";
-    robotFeedbackContainer.classList.remove('error');
-    robotFeedbackContainer.classList.add('success');
-  } else {
-    robotFeedback.innerHTML = " Not quite right! That tea might taste a bit... experimental. Give it another try! ";
-    robotFeedbackContainer.classList.remove('success');
-    robotFeedbackContainer.classList.add('error');
-  }
-}
-=======
     robotFeedback.innerHTML = "Algorithm correct. Execution successful. You have demonstrated a logical approach to problem-solving.";
     robotFeedbackContainer.classList.remove('error');
     robotFeedbackContainer.classList.add('success');
@@ -66,4 +55,3 @@ function checkOrder() {
     robotFeedbackContainer.classList.add('error');
   }
 }
->>>>>>> c8a7da4 (changes)
