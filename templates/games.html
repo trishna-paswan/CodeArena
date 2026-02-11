@@ -25,8 +25,8 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      background-color: #1a0000;
-      background-image: linear-gradient(to right, #3b0000, #6a040f, #1a0000);
+      background-color: #0f0c29; /* Main dark theme color */
+      background-image: linear-gradient(to right, #0f0c29, #1a1a40, #0f0c29); /* Dark theme gradient */
     }
 
     /* Glass Effect */
@@ -49,23 +49,23 @@
     <!-- Header -->
     <header class="w-full max-w-5xl absolute top-0 left-1/2 -translate-x-1/2 p-4 flex justify-between items-center z-10 glass-container rounded-b-2xl">
       <div class="logo">
-        <a href="/" class="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-400 transform transition-transform duration-300 hover:scale-105">
+        <a href="/" class="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#9370DB] to-[#8A2BE2] transform transition-transform duration-300 hover:scale-105">
           CodeArena
         </a>
       </div>
     </header>
 
     <main class="w-full max-w-4xl glass-container p-8 md:p-10 rounded-2xl shadow-2xl z-10">
-      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-400">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#9370DB] to-[#8A2BE2]">
         Game Lobby
       </h1>
 
       <div class="game-list grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
         
-        <div class="game-card glass-container p-6 rounded-xl shadow-lg hover:shadow-red-500/30
+        <div class="game-card glass-container p-6 rounded-xl shadow-lg hover:shadow-[#9370DB]/30
                     transition-all duration-300 transform hover:scale-105 cursor-pointer w-full max-w-sm"
              onclick="selectGame('algorithm')">
-          <h2 class="text-3xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-orange-300">
+          <h2 class="text-3xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#9370DB] to-[#8A2BE2]">
             Algorithm Puzzle
           </h2>
           <p class="text-gray-300 text-base leading-relaxed">
@@ -75,10 +75,10 @@
 
         <div class="game-card glass-container p-6 rounded-xl shadow-lg cursor-not-allowed
                     opacity-60 w-full max-w-sm">
-          <h2 class="text-3xl font-semibold mb-2 text-gray-400">
+          <h2 class="text-3xl font-semibold mb-2 text-[#9370DB]">
             More Challenges Coming Soon
           </h2>
-          <p class="text-gray-500 text-base leading-relaxed">
+          <p class="text-[#CCCCCC] text-base leading-relaxed">
             New arenas are under construction. Stay tuned.
           </p>
         </div>
@@ -87,7 +87,7 @@
     </main>
     
     <!-- Footer -->
-    <footer class="w-full max-w-5xl absolute bottom-0 left-1/2 -translate-x-1/2 p-4 text-center text-gray-500 text-sm z-10">
+    <footer class="w-full max-w-5xl absolute bottom-0 left-1/2 -translate-x-1/2 p-4 text-center text-[#CCCCCC] text-sm z-10">
       <p>&copy; 2026 CodeArena. All rights reserved.</p>
     </footer>
 
@@ -115,10 +115,10 @@
         },
       },
       particles: {
-        color: { value: "#ff4d4d" },
+        color: { value: "#9370DB" }, /* MediumPurple accent */
 
         links: {
-          color: "#ff4d4d",
+          color: "#9370DB", /* MediumPurple accent */
           distance: 150,
           enable: true,
           opacity: 0.2,

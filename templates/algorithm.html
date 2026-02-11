@@ -25,8 +25,8 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      background-color: #1a0000;
-      background-image: linear-gradient(to right, #3b0000, #6a040f, #1a0000);
+      background-color: #0f0c29; /* Main dark theme color */
+      background-image: linear-gradient(to right, #0f0c29, #1a1a40, #0f0c29); /* Dark theme gradient */
     }
 
     /* Glass Effect */
@@ -54,14 +54,14 @@
     <!-- Header -->
     <header class="w-full max-w-5xl absolute top-0 left-1/2 -translate-x-1/2 p-4 flex justify-between items-center z-10 glass-container rounded-b-2xl">
       <div class="logo">
-        <a href="/" class="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-400 transform transition-transform duration-300 hover:scale-105">
+        <a href="/" class="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#9370DB] to-[#8A2BE2] transform transition-transform duration-300 hover:scale-105">
           CodeArena
         </a>
       </div>
     </header>
 
     <main class="game-page w-full max-w-5xl mt-20 md:mt-24 mb-10 z-10">
-      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-400 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#9370DB] to-[#8A2BE2] text-center">
         The Algorithm of Tea
       </h1>
       <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-center mb-8">
@@ -73,36 +73,44 @@
         <div class="steps-container glass-container p-6 rounded-xl shadow-lg w-full lg:w-1/2">
           <h3 class="text-2xl font-semibold mb-4 text-gray-200">Available Steps</h3>
           <div class="available-steps space-y-4">
-            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl" draggable="true" id="step-sugar">Add sugar</div>
-            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl" draggable="true" id="step-boil">Boil water</div>
-            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl" draggable="true" id="step-pour">Pour into cup</div>
-            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl" draggable="true" id="step-tea">Add tea leaves</div>
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl flex flex-col items-center justify-center" draggable="true" id="step-sugar" data-step-name="Add sugar"><img src="https://i.giphy.com/media/l0HlSsR88K811vC6A/giphy.gif" alt="Adding Sugar" class="w-24 h-24 object-contain mb-2"><span class="text-sm">Add sugar</span></div>
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl flex flex-col items-center justify-center" draggable="true" id="step-boil" data-step-name="Boil water"><img src="https://i.giphy.com/media/l0Hlx4L70Ooyd0FGM/giphy.gif" alt="Boiling Water" class="w-24 h-24 object-contain mb-2"><span class="text-sm">Boil water</span></div>
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl flex flex-col items-center justify-center" draggable="true" id="step-pour" data-step-name="Pour into cup"><img src="https://i.giphy.com/media/l0HlJgY6lQJ7C8mE8/giphy.gif" alt="Pouring into Cup" class="w-24 h-24 object-contain mb-2"><span class="text-sm">Pour into cup</span></div>
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl flex flex-col items-center justify-center" draggable="true" id="step-tea" data-step-name="Add tea leaves"><img src="https://i.giphy.com/media/l0HlyC0X8WfQjD3lK/giphy.gif" alt="Adding Tea Leaves" class="w-24 h-24 object-contain mb-2"><span class="text-sm">Add tea leaves</span></div>
           </div>
         </div>
 
         <div class="drop-area-container glass-container p-6 rounded-xl shadow-lg w-full lg:w-1/2">
           <h3 class="text-2xl font-semibold mb-4 text-gray-200">Your Algorithm</h3>
-          <div class="drop-area min-h-[200px] border-2 border-dashed border-gray-600 rounded-lg p-4 space-y-4 flex flex-col justify-center items-center text-gray-500">
-            Drag steps here
+          <div class="drop-area min-h-[200px] border-2 border-dashed border-[#8A2BE2] rounded-lg p-4 space-y-4 flex flex-col justify-center items-center text-[#f0f0f0]">
+            <img id="drop-area-img" class="mx-auto my-4 w-16 h-16 opacity-50 transition-opacity duration-300" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E" alt="Drop Area Empty">
           </div>
         </div>
       </div>
 
-      <button onclick="checkOrder()"
-        class="mt-10 px-8 py-3 rounded-lg bg-red-600 hover:bg-red-500
-               transition-all duration-300 text-lg font-semibold shadow-lg hover:shadow-red-500/40
-               transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-500/50">
-        Execute Algorithm
-      </button>
+      <div class="flex justify-center gap-4 mt-10">
+        <button onclick="checkOrder()"
+          class="px-8 py-3 rounded-lg bg-[#8A2BE2] hover:bg-[#6A0DAD]
+                 transition-all duration-300 text-lg font-semibold shadow-lg hover:shadow-[#9370DB]/40
+                 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#9370DB]/50">
+          Execute Algorithm
+        </button>
+        <button onclick="resetTask()"
+          class="px-8 py-3 rounded-lg bg-gray-600 hover:bg-gray-500
+                 transition-all duration-300 text-lg font-semibold shadow-lg hover:shadow-gray-500/40
+                 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-500/50">
+          Reset Task
+        </button>
+      </div>
 
       <div class="robot-feedback glass-container p-6 rounded-xl shadow-lg flex flex-col md:flex-row items-center justify-center gap-4 mt-10 max-w-2xl mx-auto">
-          <img src="https://api.iconify.design/mdi/robot.svg?color=%23ff4d4d" alt="Robot Icon" class="w-12 h-12" />
+          <img src="https://api.iconify.design/mdi/robot.svg?color=%239370DB" alt="Robot Icon" class="w-12 h-12" />
         <p id="robot-text" class="text-gray-200 text-lg">Awaiting your solution...</p>
       </div>
     </main>
 
     <!-- Footer -->
-    <footer class="w-full max-w-5xl p-4 text-center text-gray-500 text-sm z-10 mt-auto">
+    <footer class="w-full max-w-5xl p-4 text-center text-[#CCCCCC] text-sm z-10 mt-auto">
       <p>&copy; 2026 CodeArena. All rights reserved.</p>
     </footer>
 
@@ -131,10 +139,10 @@
         },
       },
       particles: {
-        color: { value: "#ff4d4d" },
+        color: { value: "#9370DB" }, /* MediumPurple accent */
 
         links: {
-          color: "#ff4d4d",
+          color: "#9370DB", /* MediumPurple accent */
           distance: 150,
           enable: true,
           opacity: 0.2,

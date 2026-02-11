@@ -3,14 +3,14 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #87CEEB; /* Sky Blue */
-    color: #333;
+    background: #0f0c29; /* Dark Blue/Purple */
+    color: #f0f0f0; /* Light Grey for contrast */
     text-align: center;
     margin: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6v-1h9v-9H6V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4v-1h9v-9H-4V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5zm10 0h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9v-9h9v-1h-9V5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-... [truncated]
 }
 
 main {
@@ -20,44 +20,44 @@ main {
 
 /* Header and Footer */
 header, footer {
-    background-color: #fff;
+    background-color: #1a1a40; /* Secondary Dark */
     padding: 1rem 2rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 5px solid #FFD700; /* Sunny Yellow */
+    border-bottom: 5px solid #9370DB; /* MediumPurple accent */
 }
 
 .logo a {
     text-decoration: none;
-    color: #333;
+    color: #f0f0f0;
 }
 
 .logo h1 {
     margin: 0;
     font-family: 'Luckiest Guy', cursive;
     font-size: 2.5rem;
-    color: #FF6347; /* Candy Apple Red */
-    text-shadow: 2px 2px #FFD700; /* Sunny Yellow */
+    color: #E55C5C; /* Desaturated Red */
+    text-shadow: 2px 2px #DAA520; /* Desaturated Yellow */
 }
 
 footer {
     margin-top: auto;
     font-size: 0.9rem;
-    color: #666;
-    border-top: 5px solid #FFD700; /* Sunny Yellow */
+    color: #CCCCCC; /* Lighter grey for dark background */
+    border-top: 5px solid #9370DB; /* MediumPurple accent */
 }
 
 /* Landing Page */
 .landing h1 {
     font-family: 'Luckiest Guy', cursive;
     font-size: 4.5rem;
-    color: #FF6347; /* Candy Apple Red */
-    text-shadow: 3px 3px #FFD700;
+    color: #E55C5C; /* Desaturated Red */
+    text-shadow: 3px 3px #DAA520;
 }
 
 .landing p {
@@ -73,17 +73,17 @@ button {
     font-size: 22px;
     cursor: pointer;
     border-radius: 50px;
-    border: 3px solid #fff;
-    background: #FF6347; /* Candy Apple Red */
+    border: 3px solid #9370DB; /* MediumPurple */
+    background: #8A2BE2; /* BlueViolet */
     color: white;
     transition: background-color 0.3s, transform 0.2s;
     font-weight: 600;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
 }
 
 button:hover {
-    background: #FF4500; /* Lighter Red */
+    background: #6A0DAD; /* RebeccaPurple */
     transform: scale(1.1) rotate(-5deg);
 }
 
@@ -106,11 +106,11 @@ button:hover {
 }
 
 .game-card {
-    background: #fff;
+    background: #1a1a40; /* Secondary Dark */
     padding: 2rem;
     border-radius: 20px;
-    border: 5px solid #FFD700; /* Sunny Yellow */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    border: 5px solid #9370DB; /* MediumPurple accent */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
     width: 320px;
     cursor: pointer;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
@@ -118,27 +118,27 @@ button:hover {
 
 .game-card:hover {
     transform: translateY(-15px) rotate(3deg);
-    box-shadow: 0 15px 25px rgba(0,0,0,0.25);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.5);
 }
 
 .game-card h2 {
     font-family: 'Luckiest Guy', cursive;
-    color: #7CFC00; /* Grass Green */
+    color: #00BFFF; /* DeepSkyBlue */
     font-size: 2rem;
     margin-top: 0;
-    text-shadow: 2px 2px #8A2BE2; /* Royal Purple */
+    text-shadow: 2px 2px #9370DB; /* MediumPurple */
 }
 
 .game-card.disabled {
     cursor: not-allowed;
-    background: #e9ecef;
-    border-color: #D3D3D3;
+    background: #0f0c29; /* Main theme color */
+    border-color: #4a4a6e; /* Darker grey */
     transform: none;
     box-shadow: none;
 }
 
 .game-card.disabled h2 {
-    color: #6c757d;
+    color: #888; /* Greyed out text */
     text-shadow: none;
 }
 
@@ -169,29 +169,30 @@ button:hover {
 }
 
 .steps-container, .drop-area-container {
-    background: white;
+    background: #1a1a40; /* Secondary Dark */
     padding: 25px;
     border-radius: 20px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
     width: 350px;
-    border: 5px solid #FFA500; /* Vibrant Orange */
+    border: 5px solid #DAA520; /* Desaturated Yellow */
 }
 
 h3 {
     margin-top: 0;
     font-family: 'Luckiest Guy', cursive;
     font-size: 1.8rem;
-    color: #8A2BE2; /* Royal Purple */
+    color: #00BFFF; /* DeepSkyBlue */
 }
 
 .step {
-    background: #FFC0CB; /* Bubblegum Pink */
+    background: #4a4a6e; /* Darker grey/purple */
     margin: 10px 0;
     padding: 15px;
     border-radius: 10px;
     cursor: grab;
-    border: 2px solid #FFA500; /* Vibrant Orange */
+    border: 2px solid #9370DB; /* MediumPurple accent */
     font-weight: 600;
+    color: #f0f0f0; /* Light text for dark background */
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -206,7 +207,7 @@ h3 {
 }
 
 .drop-area {
-    border: 3px dashed #7CFC00; /* Grass Green */
+    border: 3px dashed #8A2BE2; /* BlueViolet */
     border-radius: 15px;
     min-height: 250px;
     padding: 10px;
@@ -214,7 +215,7 @@ h3 {
 }
 
 .drop-area.drag-over {
-    background-color: #e7f3ff;
+    background-color: #2a2a5e; /* Darker shade */
     border-style: solid;
 }
 
@@ -225,10 +226,10 @@ h3 {
     align-items: center;
     gap: 1.5rem;
     padding: 1.5rem;
-    background-color: #fff;
+    background-color: #1a1a40; /* Secondary Dark */
     border-radius: 20px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    border: 5px solid #7CFC00;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    border: 5px solid #9370DB; /* MediumPurple accent */
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
@@ -237,12 +238,12 @@ h3 {
 }
 
 .robot-feedback.success {
-    border-color: #7CFC00; /* Grass Green */
+    border-color: #00BFFF; /* DeepSkyBlue */
     transform: scale(1.05);
 }
 
 .robot-feedback.error {
-    border-color: #FF6347; /* Candy Apple Red */
+    border-color: #B22222; /* FireBrick */
     animation: shake 0.5s;
 }
 
@@ -284,4 +285,37 @@ h3 {
     .landing h1 {
         font-size: 3.5rem;
     }
+}
+/* Form Elements for Dark Theme */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+    background-color: #1a1a40; /* Secondary Dark */
+    color: #f0f0f0; /* Light text */
+    border: 1px solid #4a4a6e; /* Darker grey border */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+input[type="number"]::placeholder,
+textarea::placeholder {
+    color: #888; /* Lighter grey for placeholder */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #9370DB; /* MediumPurple accent on focus */
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.5); /* Accent glow */
 }
