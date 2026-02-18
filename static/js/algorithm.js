@@ -18,6 +18,7 @@ document.querySelectorAll(".step").forEach(step => {
 
 const dropZone = document.querySelector(".drop-area");
 const dropAreaImg = document.getElementById("drop-area-img"); // Get reference to the image
+const availableStepsContainer = document.querySelector(".available-steps"); // Get reference to available steps container
 
 dropZone.addEventListener("dragover", e => {
     e.preventDefault();
@@ -31,26 +32,63 @@ dropZone.addEventListener("dragover", e => {
 dropZone.addEventListener("dragleave", () => {
     dropZone.classList.remove('drag-over');
     if (dropAreaImg) {
-        dropAreaImg.src = DEFAULT_ICON_SVG;
-        dropAreaImg.style.opacity = 0.5; // Revert opacity
+        // Only revert if no steps are currently in the drop zone, or if a drag operation is not ongoing
+        // This prevents the icon from reverting if dragging over a step within dropZone
+        if (dropZone.children.length <= 1) { // If only the image is left
+             dropAreaImg.src = DEFAULT_ICON_SVG;
+             dropAreaImg.style.opacity = 0.5; // Revert opacity
+        }
     }
 });
 
 dropZone.addEventListener("drop", e => {
   e.preventDefault();
-  if (draggedStep) {
+  if (draggedStep && !dropZone.contains(draggedStep)) { // Only append if not already in dropZone
     dropZone.appendChild(draggedStep);
     draggedStep = null;
   }
   dropZone.classList.remove('drag-over');
+  // Revert dropZone image after drop
   if (dropAreaImg) {
-      dropAreaImg.src = SUCCESS_ICON_SVG;
-      dropAreaImg.style.opacity = 1; // Make icon more visible
+      dropAreaImg.src = SUCCESS_ICON_SVG; // Show success temporarily
+      dropAreaImg.style.opacity = 1;
       setTimeout(() => {
-          dropAreaImg.src = DEFAULT_ICON_SVG;
-          dropAreaImg.style.opacity = 0.5; // Revert opacity after delay
-      }, 1000); // Revert after 1 second
+          // Revert to default icon if no steps, otherwise keep icon if steps are present
+          if (dropZone.children.length > 1) { // If steps are present besides the image
+              dropAreaImg.src = DEFAULT_ICON_SVG; // Could be a different icon if steps are present
+              dropAreaImg.style.opacity = 0.1; // Make it less prominent if steps are present
+          } else {
+              dropAreaImg.src = DEFAULT_ICON_SVG;
+              dropAreaImg.style.opacity = 0.5;
+          }
+
+      }, 1000);
   }
+});
+
+
+// Add event listeners to availableStepsContainer for dropping back
+availableStepsContainer.addEventListener("dragover", e => {
+    e.preventDefault();
+    availableStepsContainer.classList.add('drag-over');
+});
+
+availableStepsContainer.addEventListener("dragleave", () => {
+    availableStepsContainer.classList.remove('drag-over');
+});
+
+availableStepsContainer.addEventListener("drop", e => {
+    e.preventDefault();
+    if (draggedStep && dropZone.contains(draggedStep)) { // Only append if dragged from dropZone
+        availableStepsContainer.appendChild(draggedStep);
+        draggedStep = null;
+        // Adjust dropZone image if all steps are moved out
+        if (dropAreaImg && dropZone.children.length === 1) { // If only the image is left in dropZone
+            dropAreaImg.src = DEFAULT_ICON_SVG;
+            dropAreaImg.style.opacity = 0.5;
+        }
+    }
+    availableStepsContainer.classList.remove('drag-over');
 });
 
 function checkOrder() {
@@ -80,7 +118,7 @@ function checkOrder() {
 }
 
 function resetTask() {
-  const availableStepsContainer = document.querySelector(".available-steps");
+  // const availableStepsContainer is already declared above
   const dropZoneChildren = Array.from(dropZone.children);
 
   dropZoneChildren.forEach(child => {
