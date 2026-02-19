@@ -14,5 +14,9 @@ def games():
 def algorithm_game():
     return render_template("algorithm.html")
 
+@app.route("/game/frog-game")
+def frog_game():
+    return render_template("frog-game.html")
+
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

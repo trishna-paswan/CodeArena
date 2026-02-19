@@ -5,9 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Froggy's Big Jump</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/static/css/frog-game.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Comic+Neue:wght@700&display=swap"
         rel="stylesheet">
+    <!-- Highlight.js for code snippets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
 </head>
 
 <body>
@@ -26,7 +30,7 @@
                 <button id="btn-next-story" class="btn primary">Next ➡</button>
             </div>
             <div class="frog-container idle">
-                <img src="assets/frog-idle.jpg" alt="Froggy" id="frog-char">
+                <img src="/static/assets/frog-idle.jpg" alt="Froggy" id="frog-char">
             </div>
         </div>
 
@@ -42,9 +46,9 @@
             </div>
             <div class="frog-container-game">
                 <div class="start-platform"></div>
-                <img src="assets/frog-idle.jpg" alt="Froggy" id="game-frog">
+                <img src="/static/assets/frog-idle.jpg" alt="Froggy" id="game-frog">
                 <div class="end-platform">
-                    <img src="assets/lilypad.jpg" alt="Lilypad" class="lilypad">
+                    <img src="/static/assets/lilypad.jpg" alt="Lilypad" class="lilypad">
                 </div>
             </div>
         </div>
@@ -79,7 +83,7 @@ let number = <span class="code-number">6</span>;
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/static/js/frog-game.js"></script>
 </body>
 
 </html>
