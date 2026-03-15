@@ -263,7 +263,8 @@ console.log("Froggy ate " + fliesEaten + " flies!");`,
     function initializeLevel(levelIndex) {
         if (levelIndex >= levels.length) {
             alert("Congratulations! You've completed all levels!");
-            currentLevelIndex = 0; // Reset for replay
+            window.location.href = "/games";
+            return;
         }
         currentLevelIndex = levelIndex;
         currentStoryStep = 0;
