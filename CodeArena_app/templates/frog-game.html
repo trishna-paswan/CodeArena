@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Froggy's Big Jump</title>
+    <link rel="stylesheet" href="/static/css/frog-game.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Comic+Neue:wght@700&display=swap"
+        rel="stylesheet">
+    <!-- Highlight.js for code snippets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- Back Button -->
+        <div style="position: absolute; top: 10px; right: 10px; z-index: 1000; display: flex; gap: 10px;">
+            <a href="/dashboard" class="btn primary" style="font-size: 1rem; padding: 10px 20px; text-decoration: none;">Dashboard</a>
+            <a href="/games" class="btn warning" style="font-size: 1rem; padding: 10px 20px; text-decoration: none;">Exit Lobby</a>
+        </div>
+
+        <!-- Background Elements -->
+        <div class="sky"></div>
+        <div class="ground">
+            <div class="water"></div>
+        </div>
+
+        <!-- Panel 1: Story Introduction -->
+        <div id="panel-1" class="panel active">
+            <div class="story-box">
+                <h1>Meet <span class="highlight">Froggy!</span></h1>
+                <p id="story-text">Froggy loves jumping across ponds.<br>But Froggy is a careful frog...</p>
+                <button id="btn-next-story" class="btn primary">Next ➡</button>
+            </div>
+            <div class="frog-container idle">
+                <img src="/static/assets/frog-idle.jpg" alt="Froggy" id="frog-char">
+            </div>
+        </div>
+
+        <!-- Panel 2: Interactive Question -->
+        <div id="panel-2" class="panel hidden">
+            <div class="question-box">
+                <h2>The number is: <span class="number-display">6</span></h2>
+                <p>Will Froggy jump?</p>
+                <div class="btn-group">
+                    <button id="btn-yes" class="btn success">YES ✅</button>
+                    <button id="btn-no" class="btn danger">NO ❌</button>
+                </div>
+            </div>
+            <div class="frog-container-game">
+                <div class="start-platform"></div>
+                <img src="/static/assets/frog-idle.jpg" alt="Froggy" id="game-frog">
+                <div class="end-platform">
+                    <img src="/static/assets/lilypad.jpg" alt="Lilypad" class="lilypad">
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 3: Code Reveal -->
+        <div id="panel-3" class="panel hidden">
+            <div class="code-box">
+                <h2>Great Job!</h2>
+                <div class="code-editor">
+                    <pre><code class="language-javascript">
+let number = <span class="code-number">6</span>;
+
+<span class="code-highlight">if (number > 5) {</span>
+   console.log("Frog Jumps!");
+} else {
+   console.log("Frog Waits!");
+}
+                    </code></pre>
+                </div>
+                <p class="explanation">
+                    If the condition is <strong>TRUE</strong>, Froggy jumps.<br>
+                    If it is <strong>FALSE</strong>, Froggy waits.
+                </p>
+                <button id="btn-restart" class="btn primary">Next Level ➡</button>
+            </div>
+        </div>
+
+        <!-- Feedback Overlay -->
+        <div id="feedback-overlay" class="hidden">
+            <h2 id="feedback-text"></h2>
+            <button id="btn-retry" class="btn warning hidden">Try Again ↺</button>
+        </div>
+    </div>
+
+    <script src="/static/js/frog-game.js"></script>
+</body>
+
+</html>

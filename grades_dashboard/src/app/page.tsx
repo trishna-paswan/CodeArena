@@ -54,6 +54,11 @@ export default function Home() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-6xl mx-auto relative z-10">
+        <div className="flex justify-start mb-8">
+          <a href="/games" className="px-6 py-2 rounded-full bg-slate-800/50 border border-slate-700/50 text-slate-300 hover:text-white transition-all text-sm font-bold flex items-center gap-2">
+            <span>←</span> BACK TO LOBBY
+          </a>
+        </div>
         <header className="mb-16 text-center">
           <div className="inline-block py-1 pr-4 pl-1 rounded-full bg-slate-800/50 border border-slate-700/50 backdrop-blur-md mb-6 flex items-center gap-3 w-fit mx-auto">
             <span className="bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">NEW</span>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeArena | Algorithm Challenge</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    
+    /* Particle Background */
+    #tsparticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-color: #0f0c29; /* Main dark theme color */
+      background-image: linear-gradient(to right, #0f0c29, #1a1a40, #0f0c29); /* Dark theme gradient */
+    }
+
+    /* Glass Effect */
+    .glass-container {
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Custom styles for draggable steps (Tailwind cannot handle `draggable` attribute styling directly) */
+    .step[draggable="true"] {
+      cursor: grab;
+    }
+  </style>
+</head>
+
+<body class="text-white antialiased">
+
+  <!-- Particle Canvas -->
+  <div id="tsparticles"></div>
+
+  <!-- Main Content Wrapper -->
+  <div class="min-h-screen flex flex-col items-center p-4">
+
+    <!-- Header -->
+    <header class="w-full max-w-5xl absolute top-0 left-1/2 -translate-x-1/2 p-4 flex justify-between items-center z-10 glass-container rounded-b-2xl">
+      <div class="logo">
+        <a href="/" class="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#9370DB] to-[#8A2BE2] transform transition-transform duration-300 hover:scale-105">
+          CodeArena
+        </a>
+      </div>
+      <div class="flex gap-4">
+        <a href="/dashboard" class="text-[#9370DB] hover:text-[#8A2BE2] font-semibold transition-colors">DASHBOARD</a>
+      </div>
+    </header>
+
+    <main class="game-page w-full lg:max-w-7xl xl:max-w-screen-xl mt-20 md:mt-24 mb-10 z-10">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#9370DB] to-[#8A2BE2] text-center">
+        The Algorithm of Tea
+      </h1>
+      <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-center mb-8">
+        Assemble the steps in the correct sequence.
+      </p>
+
+      <div class="game-container flex flex-col lg:flex-row justify-center items-start lg:items-stretch gap-8">
+        
+        <div class="steps-container glass-container p-6 rounded-xl shadow-lg w-full lg:w-1/2">
+          <h3 class="text-2xl font-semibold mb-4 text-gray-200">Available Steps</h3>
+          <div class="available-steps space-y-4">
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl flex flex-col items-center justify-center" draggable="true" id="step-sugar" data-step-name="Add sugar"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHE4NWxzcTlvaDRienNsaGhtaTRmNWo2a3Z5YmNqMGo1bnVnZGhwYiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/TWqhnstUczX8gBRXb0/giphy.gif" alt="Adding Sugar" class="w-40 h-40 object-cover mb-2" draggable="false"><span class="text-sm block text-center mt-2">Add sugar</span></div>
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl flex flex-col items-center justify-center" draggable="true" id="step-boil" data-step-name="Boil water"><img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjlxMnM5bHBteDZ4OG9jazB6c3RvMm1zb3J2M3RxeGdwOXNycmFvdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vRIO1bIDhJxJCmB09g/giphy.gif" alt="Boiling Water" class="w-40 h-40 object-cover mb-2" draggable="false"><span class="text-sm block text-center mt-2">Boil water</span></div>
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl flex flex-col items-center justify-center" draggable="true" id="step-pour" data-step-name="Pour into cup"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2hldTF1OXptc2d4cDF6MmE4ZGVtM21zZmJ3ODEzc2VmM2s1dXM1bSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/2ClHk5Bizke4vMDcfS/giphy.gif" alt="Pouring into Cup" class="w-40 h-40 object-cover mb-2" draggable="false"><span class="text-sm block text-center mt-2">Pour into cup</span></div>
+            <div class="step glass-container p-4 rounded-lg text-gray-200 text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-xl flex flex-col items-center justify-center" draggable="true" id="step-tea" data-step-name="Add tea leaves"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExamwzMzd1c3B2OGo3N3RycGtpNGVuNXdreWxqcHNkeXp6eGRtYmhydiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/tICY62y39zFUAm3TxL/giphy.gif" alt="Adding Tea Leaves" class="w-40 h-40 object-cover mb-2" draggable="false"><span class="text-sm block text-center mt-2">Add tea leaves</span></div>
+          </div>
+        </div>
+
+        <div class="drop-area-container glass-container p-6 rounded-xl shadow-lg w-full lg:w-1/2">
+          <h3 class="text-2xl font-semibold mb-4 text-gray-200">Your Algorithm</h3>
+          <div class="drop-area min-h-[200px] border-2 border-dashed border-[#8A2BE2] rounded-lg p-4 space-y-4 flex flex-col justify-center items-center text-[#f0f0f0]">
+            <img id="drop-area-img" class="mx-auto my-4 w-16 h-16 opacity-50 transition-opacity duration-300" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E" alt="Drop Area Empty">
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-center gap-4 mt-10">
+        <button onclick="checkOrder()"
+          class="px-8 py-3 rounded-lg bg-[#8A2BE2] hover:bg-[#6A0DAD]
+                 transition-all duration-300 text-lg font-semibold shadow-lg hover:shadow-[#9370DB]/40
+                 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#9370DB]/50">
+          Execute Algorithm
+        </button>
+        <button onclick="resetTask()"
+          class="px-8 py-3 rounded-lg bg-gray-600 hover:bg-gray-500
+                 transition-all duration-300 text-lg font-semibold shadow-lg hover:shadow-gray-500/40
+                 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-500/50">
+          Reset Task
+        </button>
+      </div>
+
+      <div class="robot-feedback glass-container p-6 rounded-xl shadow-lg flex flex-col md:flex-row items-center justify-center gap-4 mt-10 max-w-2xl mx-auto">
+          <img src="https://api.iconify.design/mdi/robot.svg?color=%239370DB" alt="Robot Icon" class="w-12 h-12" />
+        <p id="robot-text" class="text-gray-200 text-lg">Awaiting your solution...</p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-5xl p-4 text-center text-[#CCCCCC] text-sm z-10 mt-auto">
+      <p>&copy; 2026 CodeArena. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- tsParticles -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+
+  <script src="{{ url_for('static', filename='js/algorithm.js') }}"></script>
+  <script>
+    tsParticles.load("tsparticles", {
+      fpsLimit: 120,
+      interactivity: {
+        events: {
+          onHover: {
+            enable: true,
+            mode: "repulse",
+          },
+          resize: true,
+        },
+        modes: {
+          repulse: {
+            distance: 80,
+            duration: 0.4,
+          },
+        },
+      },
+      particles: {
+        color: { value: "#9370DB" }, /* MediumPurple accent */
+
+        links: {
+          color: "#9370DB", /* MediumPurple accent */
+          distance: 150,
+          enable: true,
+          opacity: 0.2,
+          width: 1,
+        },
+
+        move: {
+          enable: true,
+          speed: 1,
+          outModes: { default: "bounce" }
+        },
+
+        number: {
+          density: { enable: true, area: 800 },
+          value: 80,
+        },
+
+        opacity: { value: 0.2 },
+
+        shape: { type: "circle" },
+
+        size: { value: { min: 1, max: 3 } },
+      },
+
+      detectRetina: true,
+    });
+  </script>
+
+</body>
+</html>

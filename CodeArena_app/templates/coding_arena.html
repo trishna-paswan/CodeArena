@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeArena | C++ Challenge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background-color: #050505; color: white; }
+    .glass-container {
+      background: rgba(10, 10, 20, 0.4);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(138, 43, 226, 0.2);
+    }
+    .code-font { font-family: 'Fira Code', monospace; }
+    .neon-glow { text-shadow: 0 0 10px rgba(138, 43, 226, 0.8); }
+    .hidden { display: none; }
+    
+    /* Fade In Animation */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
+  </style>
+</head>
+<body class="p-4 md:p-8">
+  <div class="max-w-6xl mx-auto space-y-6">
+    
+    <!-- Header -->
+    <header class="flex justify-between items-center glass-container p-4 rounded-xl">
+      <div class="flex items-center gap-4">
+        <a href="/dashboard" class="text-gray-400 hover:text-white">← Dashboard</a>
+        <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#9370DB] to-[#8A2BE2]">Coding Arena (C++)</h1>
+      </div>
+      <div class="flex gap-4 text-sm">
+        <span class="text-purple-400 font-mono">Difficulty: {{ session['difficulty'] }}</span>
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- Left: Problem Description -->
+      <div class="space-y-6 animate-fade">
+        <div class="glass-container p-8 rounded-2xl h-full border-l-4 border-[#8A2BE2]">
+          <h2 id="title" class="text-3xl font-bold mb-4 neon-glow text-[#9370DB]"></h2>
+          <p id="description" class="text-gray-300 text-lg leading-relaxed mb-8"></p>
+          
+          <div class="mb-8 p-4 bg-black/40 rounded-xl border border-white/5">
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Expected Output</h3>
+            <pre id="expected-output" class="code-font text-green-400 text-sm bg-black/20 p-2 rounded"></pre>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest">Hints</h3>
+            <div id="hints-container" class="space-y-3">
+              <!-- Hints revealed one by one -->
+            </div>
+            <button id="btn-hint" class="text-sm text-[#8A2BE2] hover:underline">+ Get a Hint</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Editor Area -->
+      <div class="space-y-6 animate-fade" style="animation-delay: 0.1s;">
+        <div class="glass-container rounded-2xl overflow-hidden border border-white/10">
+          <div class="bg-black/40 px-6 py-3 border-b border-white/10 flex justify-between items-center">
+            <span class="text-xs font-mono text-gray-500 uppercase">main.cpp</span>
+            <div class="flex gap-2">
+              <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+            </div>
+          </div>
+          
+          <div class="p-8 space-y-6">
+            <div id="editor-container" class="bg-black/60 rounded-xl border border-purple-500/20 shadow-inner overflow-hidden">
+               <textarea id="code-editor" 
+                 class="w-full h-64 bg-transparent focus:outline-none p-6 code-font text-white leading-relaxed resize-none"
+                 placeholder="// Write your code here..."></textarea>
+            </div>
+
+            <!-- Terminal Output Block -->
+            <div id="terminal" class="bg-[#0c0c0c] rounded-xl border border-white/10 overflow-hidden">
+              <div class="bg-white/5 px-4 py-2 border-b border-white/5 text-[10px] text-gray-500 font-mono uppercase">Terminal</div>
+              <div id="terminal-content" class="p-4 h-32 code-font text-sm overflow-y-auto">
+                <span class="text-gray-600">$ g++ main.cpp && ./a.out</span><br>
+                <span id="output-text" class="text-gray-400 italic">No output yet. Run your code to compile.</span>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <button id="btn-run" class="flex-1 py-4 bg-[#8A2BE2] hover:bg-[#9370DB] rounded-xl font-bold transition-all shadow-lg hover:shadow-purple-500/20">
+                COMPILE & RUN
+              </button>
+              <button id="btn-next" class="hidden flex-1 py-4 bg-green-600 hover:bg-green-500 rounded-xl font-bold transition-all">
+                NEXT CHALLENGE →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const challenges = {{ challenges | tojson }};
+    let currentIdx = 0;
+    let hintIdx = 0;
+
+    function loadChallenge() {
+      const challenge = challenges[currentIdx];
+      document.getElementById('title').innerText = challenge.title;
+      document.getElementById('description').innerText = challenge.description;
+      document.getElementById('expected-output').innerText = challenge.expected_output;
+      document.getElementById('code-editor').value = challenge.starter_code;
+      
+      document.getElementById('hints-container').innerHTML = '';
+      document.getElementById('output-text').innerText = "No output yet. Run your code to compile.";
+      document.getElementById('output-text').className = "text-gray-400 italic";
+      document.getElementById('btn-next').classList.add('hidden');
+      document.getElementById('code-editor').disabled = false;
+      hintIdx = 0;
+      document.getElementById('btn-hint').innerText = "+ Get a Hint";
+    }
+
+    document.getElementById('btn-hint').onclick = () => {
+      const challenge = challenges[currentIdx];
+      if (hintIdx < challenge.hints.length) {
+        const hint = document.createElement('div');
+        hint.className = 'p-3 bg-purple-900/20 border border-purple-500/30 rounded-lg text-sm text-gray-400 animate-fade';
+        hint.innerText = `💡 ${challenge.hints[hintIdx]}`;
+        document.getElementById('hints-container').appendChild(hint);
+        hintIdx++;
+      } else {
+        document.getElementById('btn-hint').innerText = "All hints revealed!";
+      }
+    };
+
+    document.getElementById('btn-run').onclick = () => {
+      const userCode = document.getElementById('code-editor').value;
+      const challenge = challenges[currentIdx];
+      const outputText = document.getElementById('output-text');
+      
+      outputText.innerText = "Compiling...";
+      outputText.className = "text-yellow-500";
+
+      setTimeout(() => {
+        // Check for keywords in code
+        const missingKeywords = challenge.solution_keywords.filter(keyword => !userCode.includes(keyword));
+
+        if (missingKeywords.length === 0) {
+          outputText.innerText = `Program Output:\n${challenge.expected_output}\n\n[✓] Compilation Successful\n[✓] All tests passed!`;
+          outputText.className = "text-green-400 whitespace-pre";
+          document.getElementById('btn-next').classList.remove('hidden');
+          document.getElementById('code-editor').disabled = true;
+        } else {
+          outputText.innerText = `Compilation Error:\nIn function 'main': Expected logic missing.\nDid you forget keywords? (${missingKeywords.join(', ')})`;
+          outputText.className = "text-red-400 whitespace-pre";
+        }
+      }, 800);
+    };
+
+    document.getElementById('btn-next').onclick = () => {
+      currentIdx = (currentIdx + 1) % challenges.length;
+      loadChallenge();
+    };
+
+    loadChallenge();
+  </script>
+</body>
+</html>
