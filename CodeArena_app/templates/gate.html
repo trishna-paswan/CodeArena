@@ -25,6 +25,8 @@
     .ui-layer { position: relative; z-index: 10; pointer-events: none; }
     .interactive { pointer-events: auto; }
   </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/robot-assistant.css') }}">
+  <script src="{{ url_for('static', filename='js/robot-assistant.js') }}"></script>
 </head>
 <body class="text-white min-h-screen flex items-center justify-center p-4">
   <div id="canvas-container"></div>
