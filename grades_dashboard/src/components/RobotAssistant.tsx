@@ -21,17 +21,17 @@ const ROBOT_SVG = `
     </svg>`;
 
 const INSTRUCTIONS: Record<string, string> = {
-    '/': 'Welcome to CodeArena, the digital coliseum where logic meets combat. Click Initiate Combat to start your journey.',
-    '/gate': 'Identify yourself! You can either log in with your existing Game ID or set up a new identity if it is your first time here.',
-    '/setup': 'Tell me about yourself. Enter your name and choose a unique Game ID to enter the arena. Don\'t forget to pick your difficulty level!',
-    '/login': 'Welcome back, warrior! Please enter your unique Game ID to regain access to your dashboard and progress.',
-    '/dashboard': 'This is your mission control. Here you can track your activity, view your progress, and choose your next challenge from the Combat Arenas.',
-    '/game/algorithm': 'Test your algorithmic thinking here. Follow the steps and solve the sequence to proceed.',
-    '/game/frog-game': 'In the Frog Game, use your coding logic to help the frog navigate through the obstacles. Precision is key!',
-    '/game/coding-arena': 'The ultimate challenge! Write real code to solve these C++ problems. Prove your mastery over syntax and logic.',
-    '/grades/': 'Review your performance here. Check your grades across different levels and see where you need to improve.',
-    '/class': 'Review your performance here. Check your grades across different levels and see where you need to improve.',
-    '/level': 'Review your performance here. Check your grades across different levels and see where you need to improve.'
+    '/': 'Welcome to CodeArena! Click Initiate Combat to start.',
+    '/gate': 'Please log in or create a new Game ID.',
+    '/setup': 'Enter your name, choose a Game ID and difficulty level.',
+    '/login': 'Welcome back! Enter your Game ID to continue.',
+    '/dashboard': 'This is your dashboard. Track your progress and choose a challenge.',
+    '/game/algorithm': 'Solve the algorithmic sequence to proceed.',
+    '/game/frog-game': 'Help the frog navigate using logic.',
+    '/game/coding-arena': 'Solve these C++ problems to prove your mastery.',
+    '/grades/': 'Review your grades and performance here.',
+    '/class': 'Check your grades across different levels here.',
+    '/level': 'Detailed performance breakdown for this level.'
 };
 
 export default function RobotAssistant() {
@@ -39,33 +39,60 @@ export default function RobotAssistant() {
     const [bubbleText, setBubbleText] = useState("");
     const [isBubbleActive, setIsBubbleActive] = useState(false);
     const synthRef = useRef<SpeechSynthesis | null>(null);
+    const bubbleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [isSpeaking, setIsSpeaking] = useState(false);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
             synthRef.current = window.speechSynthesis;
+            // Cancel any leftover speech on mount
+            synthRef.current.cancel();
         }
+        return () => {
+            if (bubbleTimeoutRef.current) clearTimeout(bubbleTimeoutRef.current);
+            if (synthRef.current) synthRef.current.cancel();
+        };
     }, []);
+
+    const getFemaleVoice = () => {
+        if (!synthRef.current) return null;
+        const voices = synthRef.current.getVoices();
+        const voice = voices.find(v => 
+            v.name.toLowerCase().includes('female') || 
+            v.name.toLowerCase().includes('google us english') ||
+            v.name.toLowerCase().includes('samantha') ||
+            v.name.toLowerCase().includes('zira') ||
+            v.name.toLowerCase().includes('victoria') ||
+            v.name.toLowerCase().includes('google uk english female')
+        );
+        return voice || voices[0] || null;
+    };
 
     const speak = (text: string) => {
         if (!synthRef.current) return;
 
-        if (isSpeaking) {
-            synthRef.current.cancel();
-        }
+        if (bubbleTimeoutRef.current) clearTimeout(bubbleTimeoutRef.current);
+
+        // Always cancel existing speech before starting new
+        synthRef.current.cancel();
 
         setBubbleText(text);
         setIsBubbleActive(true);
 
         const utterance = new SpeechSynthesisUtterance(text);
+        const voice = getFemaleVoice();
+        if (voice) utterance.voice = voice;
+        
         utterance.rate = 1.0;
-        utterance.pitch = 1.1;
+        utterance.pitch = 1.0;
 
         utterance.onstart = () => setIsSpeaking(true);
         utterance.onend = () => {
             setIsSpeaking(false);
-            setTimeout(() => {
-                setIsBubbleActive(false);
+            bubbleTimeoutRef.current = setTimeout(() => {
+                if (!synthRef.current?.speaking) {
+                    setIsBubbleActive(false);
+                }
             }, 3000);
         };
 
@@ -73,9 +100,8 @@ export default function RobotAssistant() {
     };
 
     useEffect(() => {
-        let instruction = INSTRUCTIONS['/grades/']; // Default for grades dashboard
+        let instruction = INSTRUCTIONS['/grades/']; 
         
-        // Find if any key matches
         for (const key in INSTRUCTIONS) {
             if (pathname.startsWith(key) && key !== '/') {
                 instruction = INSTRUCTIONS[key];

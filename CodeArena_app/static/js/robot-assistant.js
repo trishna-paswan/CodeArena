@@ -23,78 +23,66 @@
     </svg>`;
 
     const INSTRUCTIONS = {
-        '/': 'Welcome to CodeArena, the digital coliseum where logic meets combat. Click Initiate Combat to start your journey.',
-        '/gate': 'Identify yourself! You can either log in with your existing Game ID or set up a new identity if it is your first time here.',
-        '/setup': 'Tell me about yourself. Enter your name and choose a unique Game ID to enter the arena. Don\'t forget to pick your difficulty level!',
-        '/login': 'Welcome back, warrior! Please enter your unique Game ID to regain access to your dashboard and progress.',
-        '/dashboard': 'This is your mission control. Here you can track your activity, view your progress, and choose your next challenge from the Combat Arenas.',
-        '/game/algorithm': 'Test your algorithmic thinking here. Follow the steps and solve the sequence to proceed.',
-        '/game/frog-game': 'In the Frog Game, use your coding logic to help the frog navigate through the obstacles. Precision is key!',
-        '/game/coding-arena': 'The ultimate challenge! Write real code to solve these C++ problems. Prove your mastery over syntax and logic.',
-        '/grades/': 'Review your performance here. Check your grades across different levels and see where you need to improve.',
-        '/game/grades-dashboard': 'Review your performance here. Check your grades across different levels and see where you need to improve.'
+        '/': 'Welcome to CodeArena! Click Initiate Combat to start.',
+        '/gate': 'Please log in or create a new Game ID.',
+        '/setup': 'Enter your name, choose a Game ID and difficulty level.',
+        '/login': 'Welcome back! Enter your Game ID to continue.',
+        '/dashboard': 'This is your dashboard. Track your progress and choose a challenge.',
+        '/game/algorithm': 'Solve the algorithmic sequence to proceed.',
+        '/game/frog-game': 'Help the frog navigate using logic.',
+        '/game/coding-arena': 'Solve these C++ problems to prove your mastery.',
+        '/grades/': 'Review your grades and performance here.',
+        '/game/grades-dashboard': 'Review your grades and performance here.'
     };
-
-    function initRobot() {
-        // Create container
-        const container = document.createElement('div');
-        container.className = 'robot-assistant-container';
-        
-        // Create speech bubble
-        const bubble = document.createElement('div');
-        bubble.className = 'robot-speech-bubble';
-        bubble.id = 'robot-bubble';
-        
-        // Create robot icon
-        const robotIcon = document.createElement('div');
-        robotIcon.className = 'robot-icon floating';
-        robotIcon.innerHTML = ROBOT_SVG;
-        
-        container.appendChild(bubble);
-        container.appendChild(robotIcon);
-        document.body.appendChild(container);
-
-        // Get instruction based on current path
-        const path = window.location.pathname;
-        let instruction = INSTRUCTIONS[path] || INSTRUCTIONS['/'];
-        
-        // Special case for Next.js routes under /grades/
-        if (path.startsWith('/grades/')) {
-            instruction = INSTRUCTIONS['/grades/'];
-        }
-
-        // Add click listener to repeat instruction
-        robotIcon.addEventListener('click', () => {
-            speak(instruction);
-        });
-
-        // Delay initial speech to allow page to load
-        setTimeout(() => {
-            speak(instruction);
-        }, 1500);
-    }
 
     let synth = window.speechSynthesis;
     let speaking = false;
+    let bubbleTimeout = null;
+
+    // Immediately cancel any leftover speech from previous page
+    if (synth) {
+        synth.cancel();
+    }
+
+    function getFemaleVoice() {
+        const voices = synth.getVoices();
+        const voice = voices.find(v => 
+            v.name.toLowerCase().includes('female') || 
+            v.name.toLowerCase().includes('google us english') ||
+            v.name.toLowerCase().includes('samantha') ||
+            v.name.toLowerCase().includes('zira') ||
+            v.name.toLowerCase().includes('victoria') ||
+            v.name.toLowerCase().includes('google uk english female')
+        );
+        return voice || voices[0] || null;
+    }
 
     function speak(text) {
-        if (speaking) {
-            synth.cancel();
-        }
+        if (!synth) return;
+
+        // Clear any pending bubble removal
+        if (bubbleTimeout) clearTimeout(bubbleTimeout);
+
+        // Always cancel before speaking new text
+        synth.cancel();
 
         const bubble = document.getElementById('robot-bubble');
-        bubble.textContent = text;
-        bubble.classList.add('active');
+        if (bubble) {
+            bubble.textContent = text;
+            bubble.classList.add('active');
+        }
 
         const utterance = new SpeechSynthesisUtterance(text);
+        const voice = getFemaleVoice();
+        if (voice) utterance.voice = voice;
+        
         utterance.rate = 1.0;
-        utterance.pitch = 1.1; // Slightly higher pitch for a robot feel
+        utterance.pitch = 1.0; 
         
         utterance.onend = () => {
             speaking = false;
-            // Keep bubble visible for a few seconds after speaking
-            setTimeout(() => {
-                if (!speaking) {
+            bubbleTimeout = setTimeout(() => {
+                if (!speaking && bubble && !synth.speaking) {
                     bubble.classList.remove('active');
                 }
             }, 3000);
@@ -107,10 +95,57 @@
         synth.speak(utterance);
     }
 
-    // Wait for DOM to be ready
+    function initRobot() {
+        const container = document.createElement('div');
+        container.className = 'robot-assistant-container';
+        
+        const bubble = document.createElement('div');
+        bubble.className = 'robot-speech-bubble';
+        bubble.id = 'robot-bubble';
+        
+        const robotIcon = document.createElement('div');
+        robotIcon.className = 'robot-icon floating';
+        robotIcon.innerHTML = ROBOT_SVG;
+        
+        container.appendChild(bubble);
+        container.appendChild(robotIcon);
+        document.body.appendChild(container);
+
+        const path = window.location.pathname;
+        let instruction = INSTRUCTIONS[path];
+        
+        if (!instruction) {
+            for (const key in INSTRUCTIONS) {
+                if (path.startsWith(key) && key !== '/') {
+                    instruction = INSTRUCTIONS[key];
+                    break;
+                }
+            }
+        }
+        
+        if (!instruction) instruction = INSTRUCTIONS['/'];
+
+        robotIcon.addEventListener('click', () => {
+            speak(instruction);
+        });
+
+        // Delay initial speech to allow page to load and voices to initialize
+        setTimeout(() => {
+            speak(instruction);
+        }, 1500);
+    }
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initRobot);
     } else {
         initRobot();
+    }
+
+    // Some browsers need this to load voices
+    if (synth && synth.onvoiceschanged !== undefined) {
+        synth.onvoiceschanged = () => {
+            // Just triggers voice loading
+            getFemaleVoice();
+        };
     }
 })();
