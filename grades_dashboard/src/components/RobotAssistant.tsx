@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { LEVEL_DATA } from "@/lib/levelData";
 
 const ROBOT_SVG = `
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -102,10 +103,18 @@ export default function RobotAssistant() {
     useEffect(() => {
         let instruction = INSTRUCTIONS['/grades/']; 
         
-        for (const key in INSTRUCTIONS) {
-            if (pathname.startsWith(key) && key !== '/') {
-                instruction = INSTRUCTIONS[key];
-                break;
+        // Handle level specific explanations
+        if (pathname.startsWith('/level/')) {
+            const levelId = pathname.split('/').pop() || "";
+            if (LEVEL_DATA[levelId]) {
+                instruction = LEVEL_DATA[levelId].explanation;
+            }
+        } else {
+            for (const key in INSTRUCTIONS) {
+                if (pathname.startsWith(key) && key !== '/') {
+                    instruction = INSTRUCTIONS[key];
+                    break;
+                }
             }
         }
         
@@ -127,12 +136,21 @@ export default function RobotAssistant() {
 
     const handleIconClick = () => {
         let instruction = INSTRUCTIONS['/grades/'];
-        for (const key in INSTRUCTIONS) {
-            if (pathname.startsWith(key) && key !== '/') {
-                instruction = INSTRUCTIONS[key];
-                break;
+        
+        if (pathname.startsWith('/level/')) {
+            const levelId = pathname.split('/').pop() || "";
+            if (LEVEL_DATA[levelId]) {
+                instruction = LEVEL_DATA[levelId].explanation;
+            }
+        } else {
+            for (const key in INSTRUCTIONS) {
+                if (pathname.startsWith(key) && key !== '/') {
+                    instruction = INSTRUCTIONS[key];
+                    break;
+                }
             }
         }
+        
         if (pathname === '/') {
             instruction = INSTRUCTIONS['/'];
         }

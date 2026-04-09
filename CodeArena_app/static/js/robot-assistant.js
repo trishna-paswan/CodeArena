@@ -28,9 +28,9 @@
         '/setup': 'Enter your name, choose a Game ID and difficulty level.',
         '/login': 'Welcome back! Enter your Game ID to continue.',
         '/dashboard': 'This is your dashboard. Track your progress and choose a challenge.',
-        '/game/algorithm': 'Solve the algorithmic sequence to proceed.',
-        '/game/frog-game': 'Help the frog navigate using logic.',
-        '/game/coding-arena': 'Solve these C++ problems to prove your mastery.',
+        '/game/algorithm': 'An algorithm is a set of step-by-step instructions to solve a problem. Just like a recipe for tea, the order of steps is crucial for the computer to understand.',
+        '/game/frog-game': 'Logic is the foundation of programming. By using conditions and sequences, you can help the frog navigate its environment safely.',
+        '/game/coding-arena': 'Welcome to the Coding Arena! Here we use C++, a powerful language. Remember that every instruction ends with a semicolon, and strings are enclosed in double quotes.',
         '/grades/': 'Review your grades and performance here.',
         '/game/grades-dashboard': 'Review your grades and performance here.'
     };
