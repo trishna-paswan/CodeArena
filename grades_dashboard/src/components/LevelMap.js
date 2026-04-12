@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 import LevelNode from "./LevelNode";
 
 export default function LevelMap({ levels, userProgress, onLevelSelect }) {
+  const normalizeLevelId = (levelId) => String(levelId ?? "");
+  const getNumericLevelValue = (levelId) => parseInt(normalizeLevelId(levelId).replace("-", ""), 10) || 0;
+
   // Generate beautiful flowing coordinates for the map path
   const points = levels.map((_, index) => {
     // Start at bottom (90%) and climb to top (10%)
@@ -15,10 +18,16 @@ export default function LevelMap({ levels, userProgress, onLevelSelect }) {
   });
 
   const getStatus = (levelId) => {
-    if (userProgress.completedLevels.includes(levelId)) return "completed";
-    if (userProgress.unlockedLevels.includes(levelId)) return "unlocked";
+    const normalizedId = normalizeLevelId(levelId);
+    if (userProgress.completedLevels.map(normalizeLevelId).includes(normalizedId)) return "completed";
+    if (userProgress.unlockedLevels.map(normalizeLevelId).includes(normalizedId)) return "unlocked";
     return "locked";
   };
+
+  const highestUnlockedLevel = Math.max(
+    0,
+    ...userProgress.unlockedLevels.map(getNumericLevelValue)
+  );
 
   return (
     <div className="relative w-full max-w-lg mx-auto h-[75vh] min-h-[600px] bg-slate-900/60 rounded-[3rem] border border-slate-700/50 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-md overflow-hidden glass-panel">
@@ -56,8 +65,7 @@ export default function LevelMap({ levels, userProgress, onLevelSelect }) {
           {/* Render Nodes */}
           {levels.map((level, i) => {
             const status = getStatus(level.id);
-            const isCurrent = Math.max(...userProgress.unlockedLevels.map(id => parseInt(id.replace('-','')))) === parseInt(level.id.replace('-',''));
-            // Since IDs are string "6-1", parseInt replaces gives 61 vs 62.
+            const isCurrent = highestUnlockedLevel === getNumericLevelValue(level.id);
 
             return (
               <LevelNode

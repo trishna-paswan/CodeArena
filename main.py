@@ -2,15 +2,62 @@ from flask import Flask, render_template, request, redirect, url_for, session, s
 import sqlite3
 from datetime import datetime
 import os
+import shutil
+import tempfile
+from flask_cors import CORS
+
+
 
 app = Flask(__name__, 
             template_folder='CodeArena_app/templates', 
             static_folder='CodeArena_app/static')
+CORS(app)
 app.secret_key = 'codearena_secret_key'
 
+BASE_DIR = os.path.dirname(__file__)
+LEGACY_DB_PATH = os.path.join(BASE_DIR, 'CodeArena_app', 'database.db')
+RUNTIME_DATA_ROOT = tempfile.gettempdir()
+DATA_DIR = os.path.join(RUNTIME_DATA_ROOT, 'CodeArena')
+DB_PATH = os.path.join(DATA_DIR, 'database.db')
+
+
+def quarantine_sqlite_files(db_path):
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    for suffix in ('', '-journal', '-wal', '-shm'):
+        candidate = f"{db_path}{suffix}"
+        if os.path.exists(candidate):
+            try:
+                os.replace(candidate, f"{candidate}.corrupt-{timestamp}")
+            except OSError:
+                # Some synced folders can keep a broken SQLite file locked.
+                # In that case we fall back to a new database elsewhere.
+                continue
+
+
+def can_open_sqlite_db(db_path):
+    if not os.path.exists(db_path):
+        return False
+
+    try:
+        conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+        conn.execute('PRAGMA quick_check').fetchone()
+        conn.close()
+        return True
+    except sqlite3.Error:
+        return False
+
+
+def prepare_database():
+    os.makedirs(DATA_DIR, exist_ok=True)
+
+    if os.path.exists(DB_PATH) and not can_open_sqlite_db(DB_PATH):
+        quarantine_sqlite_files(DB_PATH)
+
+    if not os.path.exists(DB_PATH) and can_open_sqlite_db(LEGACY_DB_PATH):
+        shutil.copy2(LEGACY_DB_PATH, DB_PATH)
+
 def get_db_connection():
-    db_path = os.path.join(os.path.dirname(__file__), 'CodeArena_app', 'database.db')
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(DB_PATH, timeout=5)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -46,6 +93,7 @@ def init_db():
     conn.commit()
     conn.close()
 
+prepare_database()
 init_db()
 
 @app.route("/")
@@ -212,6 +260,28 @@ def serve_grades(path='index.html'):
     if not target_file.startswith(static_grades_dir + os.sep) and target_file != static_grades_dir:
         abort(404)
 
+    # Next.js static exports request React Server Component payloads through
+    # the same route with an `_rsc` query string. Those payloads live beside
+    # the HTML as `.txt` files, so serve them explicitly during client-side
+    # navigation.
+    if '_rsc' in request.args:
+        rsc_candidates = []
+        if path in ('', '.', 'index.html'):
+            rsc_candidates.append('index.txt')
+        elif '.' not in os.path.basename(path):
+            rsc_candidates.append(path + '.txt')
+        else:
+            base, ext = os.path.splitext(path)
+            if ext == '.html':
+                rsc_candidates.append(base + '.txt')
+            elif ext == '.txt':
+                rsc_candidates.append(path)
+
+        for candidate in rsc_candidates:
+            candidate_file = os.path.abspath(os.path.join(static_grades_dir, candidate))
+            if candidate_file.startswith(static_grades_dir + os.sep) and os.path.isfile(candidate_file):
+                return send_from_directory(static_grades_dir, candidate)
+
     # If the path is a directory, serve its index.html first
     if os.path.isdir(target_file):
         candidate = os.path.join(target_file, 'index.html')
@@ -219,12 +289,26 @@ def serve_grades(path='index.html'):
             path = os.path.join(path, 'index.html')
             target_file = candidate
 
-    # Fall back to an HTML page if no extension was provided
+    # # Fall back to an HTML page if no extension was provided
+    # if not os.path.isfile(target_file) and '.' not in os.path.basename(path):
+    #     candidate = os.path.abspath(os.path.join(static_grades_dir, path + '.html'))
+    #     if candidate.startswith(static_grades_dir + os.sep) and os.path.isfile(candidate):
+    #         path += '.html'
+    #         target_file = candidate
+
+    # Try serving index.html inside folder (e.g., class/6/index.html)
+    if not os.path.isfile(target_file):
+        index_candidate = os.path.abspath(os.path.join(static_grades_dir, path, 'index.html'))
+        if index_candidate.startswith(static_grades_dir + os.sep) and os.path.isfile(index_candidate):
+            path = os.path.join(path, 'index.html')
+            return send_from_directory(static_grades_dir, path)
+
+    # Try .html fallback (e.g., class/6.html)
     if not os.path.isfile(target_file) and '.' not in os.path.basename(path):
-        candidate = os.path.abspath(os.path.join(static_grades_dir, path + '.html'))
-        if candidate.startswith(static_grades_dir + os.sep) and os.path.isfile(candidate):
+        html_candidate = os.path.abspath(os.path.join(static_grades_dir, path + '.html'))
+        if html_candidate.startswith(static_grades_dir + os.sep) and os.path.isfile(html_candidate):
             path += '.html'
-            target_file = candidate
+            return send_from_directory(static_grades_dir, path)
 
     if not os.path.isfile(target_file):
         abort(404)
