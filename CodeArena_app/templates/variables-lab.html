@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeArena | Variables Lab</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #050505;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.15), transparent 40%);
+            background-attachment: fixed;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.6), 0 0 20px rgba(138, 43, 226, 0.4);
+        }
+
+        /* The Variable Box Visuals */
+        .variable-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            perspective: 1000px;
+            margin: 0 20px;
+        }
+        
+        .variable-box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 41, 59, 0.8);
+            border: 4px solid rgba(56, 189, 248, 0.8);
+            border-radius: 24px;
+            box-shadow: inset 0 0 30px rgba(56, 189, 248, 0.2), 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: all 0.5s ease;
+            overflow: hidden;
+        }
+
+        .variable-box.updated {
+            border-color: rgba(16, 185, 129, 0.8);
+            box-shadow: inset 0 0 30px rgba(16, 185, 129, 0.4), 0 0 40px rgba(16, 185, 129, 0.6);
+            transform: scale(1.1);
+        }
+
+        .variable-label {
+            position: absolute;
+            top: -15px;
+            background: rgba(56, 189, 248, 0.9);
+            color: #050505;
+            padding: 2px 16px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(56, 189, 248, 0.4);
+            z-index: 10;
+        }
+
+        .variable-value {
+            font-size: 4rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Value animations */
+        @keyframes dropIn {
+            0% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+            60% { transform: translateY(20px) scale(1.2); }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        
+        @keyframes popOut {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0) translateY(-50px); opacity: 0; }
+        }
+
+        .anim-drop {
+            animation: dropIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .anim-pop {
+            animation: popOut 0.4s ease-in forwards;
+        }
+
+        /* Controls */
+        .panel-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+            border: 2px solid rgba(138, 43, 226, 0.4);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .panel-btn:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.8);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+        }
+
+        .math-symbol {
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0 10px;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex flex-col p-4 md:p-8">
+
+    <!-- Header Map Button -->
+    <a href="/game/grades-dashboard" class="absolute top-6 left-6 z-50 flex items-center gap-2 text-slate-400 hover:text-white transition-colors bg-slate-900/80 py-2 px-4 rounded-full border border-slate-700/50 backdrop-blur-md">
+        <span>←</span> Back to Map
+    </a>
+
+    <!-- Main Container -->
+    <div class="max-w-6xl mx-auto w-full flex-grow flex flex-col items-center justify-start mt-12 md:mt-4">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-block px-4 py-1 rounded-full bg-violet-500/20 border border-violet-400/30 text-violet-300 font-black tracking-widest uppercase text-sm mb-4" id="level-indicator">
+                LEVEL 1: ASSIGNMENT
+            </div>
+            <h1 class="text-5xl md:text-6xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-violet-500 neon-text leading-tight">
+                VARIABLES LAB
+            </h1>
+            <p class="text-xl text-slate-300 font-medium" id="mode-instruction">
+                Store 5 in variable X
+            </p>
+        </div>
+
+        <!-- The Physics Lab (Variable Display) -->
+        <div class="glass-panel w-full p-10 md:p-16 rounded-3xl mb-8 flex flex-col items-center justify-center min-h-[350px]">
+            
+            <div id="variables-stage" class="flex flex-wrap gap-4 md:gap-8 justify-center items-center w-full">
+                <!-- Javascript injects visual .variable-container boxes here dynamically based on level -->
+            </div>
+
+            <!-- Optional Story Word Problem text -->
+            <div id="story-context" class="hidden mt-10 p-6 rounded-2xl bg-slate-800/80 border border-slate-600 font-medium text-slate-200 text-xl w-full max-w-3xl text-center shadow-lg">
+               <!-- Story injected here -->
+            </div>
+        </div>
+
+        <!-- Feedback Area -->
+        <div id="feedback-area" class="w-full max-w-3xl text-center p-4 rounded-2xl mb-8 text-xl font-bold transition-all duration-300 opacity-0 transform translate-y-4"></div>
+
+        <!-- Control Interface -->
+        <div id="control-interface" class="w-full max-w-4xl glass-panel rounded-3xl p-8 flex flex-col items-center">
+            
+            <form id="action-form" class="flex flex-wrap gap-4 justify-center items-center w-full">
+               <!-- JS builds input mechanics here (Input fields, explicit buttons) -->
+               <div id="input-zone" class="flex items-center gap-4">
+                   <!-- Eg: input for X -->
+               </div>
+               <button type="submit" id="execute-btn" class="bg-gradient-to-r from-violet-600 to-fuchsia-600 border border-fuchsia-400 text-white font-black text-xl px-10 py-4 rounded-xl shadow-[0_0_20px_rgba(138,43,226,0.5)] hover:scale-105 transition-transform">
+                   EXECUTE
+               </button>
+            </form>
+
+        </div>
+
+        <!-- Next Level Transition -->
+        <div class="mt-8 opacity-0 transition-opacity duration-300 hidden" id="action-btn-container">
+            <button onclick="handleNextStep()" class="bg-gradient-to-r from-green-400 to-emerald-600 text-white font-black text-2xl px-12 py-5 rounded-full shadow-[0_0_25px_rgba(52,211,153,0.5)] hover:scale-105 hover:shadow-[0_0_40px_rgba(52,211,153,0.8)] transition-all" id="action-btn">
+                NEXT EXPERIMENT ➡
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Script -->
+    <script src="{{ url_for('static', filename='js/variables-lab.js') }}"></script>
+</body>
+</html>

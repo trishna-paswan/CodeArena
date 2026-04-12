@@ -22,7 +22,7 @@ const ROBOT_SVG = `
     </svg>`;
 
 const INSTRUCTIONS: Record<string, string> = {
-    '/': 'Welcome to CodeArena! Click Initiate Combat to start.',
+    '/': 'Welcome to Grade Quests! Click Initiate Combat to start.',
     '/gate': 'Please log in or create a new Game ID.',
     '/setup': 'Enter your name, choose a Game ID and difficulty level.',
     '/login': 'Welcome back! Enter your Game ID to continue.',

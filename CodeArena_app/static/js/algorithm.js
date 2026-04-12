@@ -93,6 +93,24 @@ function checkOrder() {
         updateFeedback("SUCCESS! The tea is perfect. You've mastered the sequence algorithm!", "success");
         feedbackBox.classList.add('success');
         createConfetti();
+        
+        // Mark level 6-1 complete in Next.js Dashboard
+        try {
+            const saved = localStorage.getItem("codeArena_progress");
+            if (saved) {
+                let progress = JSON.parse(saved);
+                if (!progress.completedLevels.includes("6-1")) {
+                    progress.completedLevels.push("6-1");
+                    progress.stars += 3;
+                    if (!progress.unlockedLevels.includes("6-2")) {
+                        progress.unlockedLevels.push("6-2");
+                    }
+                    localStorage.setItem("codeArena_progress", JSON.stringify(progress));
+                }
+            }
+        } catch (e) {
+            console.error(e);
+        }
     } else {
         updateFeedback("Almost there! But the tea doesn't taste right. Are the steps in the best order?", "error");
         feedbackBox.classList.add('error');

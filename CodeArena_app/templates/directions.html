@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeArena | Help the Robot Reach Home</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        
+        .grid-cell {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #e5e7eb; /* grayish border for light UI */
+            background-color: #f9fafb;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .grid-cell.obstacle {
+            background-color: #fca5a5;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px);
+        }
+
+        .grid-cell.goal {
+            background-color: #a7f3d0;
+        }
+
+        /* The Robot itself should move over the grid. 
+           We'll keep an absolute positioned element synced to relative row/col percentages. */
+        #robot-sprite {
+            position: absolute;
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            z-index: 10;
+        }
+
+        .command-badge {
+            transition: all 0.2s;
+        }
+        .command-badge.active {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px 2px rgba(99, 102, 241, 0.4);
+            border-color: #6366f1;
+        }
+    </style>
+</head>
+<body class="bg-blue-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="w-full bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                CodeArena
+            </a>
+            <div class="flex items-center gap-6">
+                <span id="level-indicator" class="font-bold text-indigo-600 bg-indigo-100 py-1 px-4 rounded-full">Level: 1</span>
+                <a href="/dashboard" class="text-gray-500 hover:text-indigo-600 font-semibold transition-colors">DASHBOARD</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto w-full p-4 flex flex-col lg:flex-row gap-6 mt-6">
+        
+        <!-- Left Panel: Grid & Feedback -->
+        <div class="w-full lg:w-2/3 flex flex-col bg-white rounded-2xl shadow-lg p-6 border border-gray-100 relative">
+            <h1 class="text-3xl font-bold text-indigo-800 mb-2">Help the Robot Reach Home</h1>
+            <p class="text-gray-500 mb-6 font-medium">Use instructional algorithms and loops to guide the 🤖 to the 🏠.</p>
+            
+            <!-- Game Board 6x6 -->
+            <div class="relative w-full aspect-square max-w-lg mx-auto bg-gray-100 rounded-lg overflow-hidden shadow-inner border-2 border-indigo-100">
+                <div id="game-grid" class="w-full h-full grid grid-cols-6 grid-rows-6">
+                    <!-- JS fills this -->
+                </div>
+                <div id="robot-sprite">🤖</div>
+            </div>
+
+            <!-- Feedback Area -->
+            <div id="feedback-area" class="mt-6 w-full text-center py-4 rounded-lg bg-blue-50 border border-blue-100 text-blue-800 font-medium text-lg min-h-[60px] flex items-center justify-center transition-colors">
+                You are writing an algorithm!
+            </div>
+        </div>
+
+        <!-- Right Panel: Commands -->
+        <div class="w-full lg:w-1/3 flex flex-col bg-white rounded-2xl shadow-lg border border-gray-100 flex-grow">
+            <!-- Add Commands -->
+            <div class="p-5 border-b border-gray-100 bg-gray-50 rounded-t-2xl">
+                <h2 class="text-xl font-bold text-slate-700 mb-4 flex items-center gap-2">
+                    <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span> Add Commands
+                </h2>
+                
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <button class="bg-white border-2 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-400 text-indigo-700 font-bold py-2 rounded-lg transition-colors shadow-sm" onclick="addCommand('UP')">⬆️ UP</button>
+                    <button class="bg-white border-2 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-400 text-indigo-700 font-bold py-2 rounded-lg transition-colors shadow-sm" onclick="addCommand('DOWN')">⬇️ DOWN</button>
+                    <button class="bg-white border-2 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-400 text-indigo-700 font-bold py-2 rounded-lg transition-colors shadow-sm" onclick="addCommand('LEFT')">⬅️ LEFT</button>
+                    <button class="bg-white border-2 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-400 text-indigo-700 font-bold py-2 rounded-lg transition-colors shadow-sm" onclick="addCommand('RIGHT')">➡️ RIGHT</button>
+                </div>
+
+                <!-- Loop Block -->
+                <div class="mt-4 p-3 border-2 border-purple-200 bg-purple-50 rounded-lg">
+                    <h3 class="text-sm font-bold text-purple-800 mb-2 uppercase tracking-wide">Advance: Add Loop</h3>
+                    <div class="flex gap-2 items-center">
+                        <select id="loop-count" class="bg-white border border-purple-300 text-purple-900 rounded-lg px-2 py-2 w-1/3 shadow-sm focus:outline-none focus:ring focus:ring-purple-200">
+                            <option value="2">2x</option>
+                            <option value="3">3x</option>
+                            <option value="4">4x</option>
+                            <option value="5">5x</option>
+                        </select>
+                        <select id="loop-direction" class="bg-white border border-purple-300 text-purple-900 rounded-lg px-2 py-2 flex-grow shadow-sm focus:outline-none focus:ring focus:ring-purple-200">
+                            <option value="UP">⬆️ UP</option>
+                            <option value="DOWN">⬇️ DOWN</option>
+                            <option value="LEFT">⬅️ LEFT</option>
+                            <option value="RIGHT">➡️ RIGHT</option>
+                        </select>
+                    </div>
+                    <button class="w-full mt-3 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-lg transition-colors shadow-md" onclick="addLoopCommand()">
+                        + Add Loop
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sequence Viewer -->
+            <div class="p-5 flex-grow flex flex-col min-h-[250px]">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-slate-700 flex items-center gap-2">
+                        <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span> Sequence
+                    </h2>
+                    <span id="moves-counter" class="text-sm font-semibold text-gray-400">Moves: 0</span>
+                </div>
+                
+                <div id="sequence-container" class="space-y-2 flex-grow overflow-y-auto pr-2 pb-4">
+                    <!-- Commands appended here -->
+                    <div class="text-gray-400 text-center italic mt-10" id="empty-state">No commands yet. Fill your algorithm!</div>
+                </div>
+
+                <div class="mt-4 flex gap-3 pt-4 border-t border-gray-100">
+                    <button class="flex-grow bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl transition-colors" onclick="resetLevel()">
+                        Reset
+                    </button>
+                    <button class="flex-grow bg-green-500 hover:bg-green-600 text-white shadow-lg shadow-green-500/30 font-bold py-3 rounded-xl transition-transform transform hover:-translate-y-1" onclick="runAlgorithm()">
+                        ▶ RUN
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/directions.js') }}"></script>
+</body>
+</html>

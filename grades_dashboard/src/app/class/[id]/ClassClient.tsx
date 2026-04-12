@@ -1,7 +1,7 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 import LevelMap from "@/components/LevelMap";
 import { useProgress } from "@/lib/useProgress";
 import { ArrowLeft, Star, Award } from "lucide-react";
@@ -14,10 +14,10 @@ const CLASS_LEVELS = {
     { id: "6-2", name: "Level 2: Routine", theory: true },
     { id: "6-3", name: "Level 3: Directions", theory: true },
     { id: "6-4", name: "Level 4: Patterns", theory: true },
-    { id: "6-5", name: "Level 5: Maze Basics", theory: true },
+    { id: "6-5", name: "Level 5: Froggy", theory: true },
   ],
   7: [
-    { id: "7-1", name: "Level 1: Builder", theory: true },
+    { id: "7-1", name: "Level 1: Variables Lab", theory: true },
     { id: "7-2", name: "Level 2: Traffic", theory: true },
     { id: "7-3", name: "Level 3: Debugging", theory: true },
     { id: "7-4", name: "Level 4: Factory", theory: true },
@@ -25,24 +25,29 @@ const CLASS_LEVELS = {
   ]
 };
 
-export function generateStaticParams() {
-  return [
-    { id: '6' },
-    { id: '7' },
-  ];
-}
 
-export default function ClassPage({ params }: { params: Promise<{ id: string }> }) {
-  const unwrappedParams = use(params);
-  const classId = unwrappedParams.id;
+
+export default function ClassPage() {
+  const params = useParams();
+  const rawClassId = params?.id;
+  const classId = Array.isArray(rawClassId) ? rawClassId[0] ?? "" : rawClassId ?? "";
   const router = useRouter();
   const { progress, isLoaded } = useProgress();
   const [levels, setLevels] = useState<any[]>([]);
+
+  if (!classId) {
+    return (
+      <main className="min-h-screen flex items-center justify-center text-white">
+        <p>Unable to load class information.</p>
+      </main>
+    );
+  }
 
   useEffect(() => {
     // Determine the levels for this class
     const classData = (CLASS_LEVELS as any)[classId];
     if (classData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLevels(classData);
     } else {
       // Fallback or empty state for other classes
@@ -66,7 +71,7 @@ export default function ClassPage({ params }: { params: Promise<{ id: string }> 
   return (
     <main className="min-h-screen p-4 md:p-8 flex items-center justify-center">
       <div className="w-full max-w-5xl mx-auto flex flex-col md:flex-row gap-8 items-start">
-        
+
         {/* Left Sidebar Info */}
         <div className="w-full md:w-1/3 flex flex-col gap-6">
           <Link href="/">
@@ -74,11 +79,11 @@ export default function ClassPage({ params }: { params: Promise<{ id: string }> 
               <ArrowLeft size={16} /> Back to Classes
             </button>
           </Link>
-          
+
           <div className="glass-panel p-6 border-indigo-500/30 rounded-3xl">
             <h2 className="text-3xl font-bold text-white mb-2">Class {classId}</h2>
             <p className="text-indigo-300 font-medium mb-8">Your computing journey log.</p>
-            
+
             <div className="space-y-4">
               <div className="bg-slate-800/50 rounded-2xl p-4 flex items-center gap-4">
                 <div className="bg-amber-500/20 p-3 rounded-xl text-amber-500">
@@ -89,7 +94,7 @@ export default function ClassPage({ params }: { params: Promise<{ id: string }> 
                   <p className="text-2xl font-black text-white">{progress.stars}</p>
                 </div>
               </div>
-              
+
               <div className="bg-slate-800/50 rounded-2xl p-4 flex items-center gap-4">
                 <div className="bg-green-500/20 p-3 rounded-xl text-green-500">
                   <Award size={24} />
@@ -102,14 +107,14 @@ export default function ClassPage({ params }: { params: Promise<{ id: string }> 
             </div>
           </div>
         </div>
-        
+
         {/* Right Map Canvas */}
         <div className="w-full md:w-2/3">
           {levels.length > 0 && (
-            <LevelMap 
-              levels={levels} 
-              userProgress={progress} 
-              onLevelSelect={handleLevelSelect} 
+            <LevelMap
+              levels={levels}
+              userProgress={progress}
+              onLevelSelect={handleLevelSelect}
             />
           )}
         </div>

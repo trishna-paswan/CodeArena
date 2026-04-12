@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory, abort
 import sqlite3
 from datetime import datetime
 import os
@@ -174,34 +174,61 @@ def algorithm_game():
 def frog_game():
     return render_template("frog-game.html")
 
+@app.route("/game/directions")
+def directions_game():
+    return render_template("directions.html")
+
+@app.route("/game/patterns")
+def patterns_game():
+    return render_template("patterns.html")
+
+@app.route("/game/variables-lab")
+def variables_lab_game():
+    return render_template("variables-lab.html")
+
 @app.route("/game/grades-dashboard")
 def grades_dashboard_game():
     if 'user_id' not in session:
         return redirect(url_for('setup'))
     return redirect("/grades/")
 
+@app.route('/grades')
+def grades_redirect():
+    return redirect(url_for('serve_grades'))
+
 @app.route('/grades/')
 @app.route('/grades/<path:path>')
 def serve_grades(path='index.html'):
-    static_grades_dir = os.path.join(app.static_folder, 'grades')
-    
-    # Clean up the path
-    if not path or path == "":
-        path = "index.html"
-    
-    full_path = os.path.join(static_grades_dir, path)
-    
-    # If path is a directory, look for index.html inside
-    if os.path.isdir(full_path):
-        index_path = os.path.join(path, 'index.html')
-        if os.path.isfile(os.path.join(static_grades_dir, index_path)):
-            path = index_path
-    
-    # Handle clean URLs (no .html extension) for Next.js pages
-    if not os.path.isfile(os.path.join(static_grades_dir, path)) and '.' not in os.path.basename(path):
-        if os.path.isfile(os.path.join(static_grades_dir, path + '.html')):
+    static_grades_dir = os.path.abspath(os.path.join(app.static_folder, 'grades'))
+
+    path = (path or 'index.html').lstrip('/')
+    path = os.path.normpath(path).replace('\\', '/')
+
+    # Prevent path traversal
+    if path.startswith('..'):
+        abort(404)
+
+    target_file = os.path.abspath(os.path.join(static_grades_dir, path))
+    if not target_file.startswith(static_grades_dir + os.sep) and target_file != static_grades_dir:
+        abort(404)
+
+    # If the path is a directory, serve its index.html first
+    if os.path.isdir(target_file):
+        candidate = os.path.join(target_file, 'index.html')
+        if os.path.isfile(candidate):
+            path = os.path.join(path, 'index.html')
+            target_file = candidate
+
+    # Fall back to an HTML page if no extension was provided
+    if not os.path.isfile(target_file) and '.' not in os.path.basename(path):
+        candidate = os.path.abspath(os.path.join(static_grades_dir, path + '.html'))
+        if candidate.startswith(static_grades_dir + os.sep) and os.path.isfile(candidate):
             path += '.html'
-            
+            target_file = candidate
+
+    if not os.path.isfile(target_file):
+        abort(404)
+
     return send_from_directory(static_grades_dir, path)
 
 @app.route("/game/coding-arena")

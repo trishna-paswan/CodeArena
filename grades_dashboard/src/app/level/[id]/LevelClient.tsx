@@ -1,26 +1,30 @@
 "use client";
 
-import { use, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
 import TheoryCard from "@/components/TheoryCard";
 import PhaserGame from "@/components/PhaserGame";
 import { useProgress } from "@/lib/useProgress";
 import { ArrowLeft } from "lucide-react";
 import { LEVEL_DATA } from "@/lib/levelData";
 
-export function generateStaticParams() {
-  return [
-    { id: "6-1" }, { id: "6-2" }, { id: "6-3" }, { id: "6-4" }, { id: "6-5" },
-    { id: "7-1" }, { id: "7-2" }, { id: "7-3" }, { id: "7-4" }, { id: "7-5" }
-  ];
-}
 
-export default function LevelPage({ params }: { params: Promise<{ id: string }> }) {
-  const unwrappedParams = use(params);
-  const levelId = unwrappedParams.id;
+
+export default function LevelPage() {
+  const params = useParams();
+  const rawLevelId = params?.id;
+  const levelId = Array.isArray(rawLevelId) ? rawLevelId[0] ?? "" : rawLevelId ?? "";
   const router = useRouter();
   const { completeLevel } = useProgress();
   
+  if (!levelId) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white">
+        <p>Unable to load level information.</p>
+      </div>
+    );
+  }
+
   const [phase, setPhase] = useState("theory"); // 'theory' | 'game' | 'completed'
   
   const levelInfo = (LEVEL_DATA as any)[levelId] || {
@@ -32,6 +36,26 @@ export default function LevelPage({ params }: { params: Promise<{ id: string }> 
   };
 
   const handleStartGame = () => {
+    if (levelInfo.gameInfo === "ExternalAlgorithm") {
+      window.location.href = "/game/algorithm";
+      return;
+    }
+    if (levelInfo.gameInfo === "ExternalDirection") {
+      window.location.href = "/game/directions";
+      return;
+    }
+    if (levelInfo.gameInfo === "ExternalFrog") {
+      window.location.href = "/game/frog-game";
+      return;
+    }
+    if (levelInfo.gameInfo === "ExternalPattern") {
+      window.location.href = "/game/patterns";
+      return;
+    }
+    if (levelInfo.gameInfo === "ExternalVariableLab") {
+      window.location.href = "/game/variables-lab";
+      return;
+    }
     setPhase("game");
   };
 

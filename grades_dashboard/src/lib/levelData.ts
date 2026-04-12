@@ -10,7 +10,7 @@ export const LEVEL_DATA: Record<string, {
     title: "Algorithm: Tea Making",
     explanation: "An algorithm is like a recipe! It is a set of step-by-step instructions to complete a task. Let's practice by making tea in the correct order.",
     example: "1. Boil Water\n2. Add Tea Leaves\n3. Add Sugar and Milk\n4. Serve",
-    gameInfo: "TeaGame"
+    gameInfo: "ExternalAlgorithm"
   },
   "6-2": {
     classId: "6",
@@ -24,28 +24,28 @@ export const LEVEL_DATA: Record<string, {
     title: "Instructions: Direction",
     explanation: "Computers only do exactly what you tell them. Guide the character to the goal using precise directional commands.",
     example: "move_forward(2)\nturn_left()\nmove_forward(1)",
-    gameInfo: "DirectionGame"
+    gameInfo: "ExternalDirection"
   },
   "6-4": {
     classId: "6",
     title: "Repetition: Loops",
     explanation: "Don't repeat yourself! Use a loop to perform the same action multiple times to form a pattern.",
     example: "for i in range(4):\n   draw_square()",
-    gameInfo: "PatternGame"
+    gameInfo: "ExternalPattern"
   },
   "6-5": {
     classId: "6",
-    title: "Logic: Maze Basics",
-    explanation: "Combine sequences, directions, and step-by-step thinking to escape the maze.",
-    example: "while not_at_goal():\n    step_forward()",
-    gameInfo: "MazeGame"
+    title: "Conditionals: Froggy's Jump",
+    explanation: "Sometimes we need to make choices based on rules. This is called a conditional (If-Else statement).",
+    example: "if (number > 5) {\n   jump();\n} else {\n   wait();\n}",
+    gameInfo: "ExternalFrog"
   },
   "7-1": {
     classId: "7",
-    title: "Loops: Code Builder",
-    explanation: "Build structures efficiently by placing blocks in loops.",
-    example: "for(let i=0; i<5; i++) {\n  placeBlock();\n}",
-    gameInfo: "BuilderGame"
+    title: "Variables: Core Lab",
+    explanation: "Learn how computers store and update data using variables.",
+    example: "let X = 5;\nX = X + 3;",
+    gameInfo: "ExternalVariableLab"
   },
   "7-2": {
     classId: "7",

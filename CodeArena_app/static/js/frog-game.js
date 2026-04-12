@@ -263,6 +263,25 @@ console.log("Froggy ate " + fliesEaten + " flies!");`,
     function initializeLevel(levelIndex) {
         if (levelIndex >= levels.length) {
             alert("Congratulations! You've completed all levels!");
+            
+            // Mark level 6-5 complete in Next.js Dashboard
+            try {
+                const saved = localStorage.getItem("codeArena_progress");
+                if (saved) {
+                    let progress = JSON.parse(saved);
+                    if (!progress.completedLevels.includes("6-5")) {
+                        progress.completedLevels.push("6-5");
+                        progress.stars += 3;
+                        if (!progress.unlockedLevels.includes("7-1")) {
+                            progress.unlockedLevels.push("7-1");
+                        }
+                        localStorage.setItem("codeArena_progress", JSON.stringify(progress));
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+            
             window.location.href = "/games";
             return;
         }
