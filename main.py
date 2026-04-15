@@ -311,6 +311,14 @@ def patterns_game():
 def variables_lab_game():
     return render_template("variables-lab.html")
 
+@app.route("/game/traffic-light")
+def traffic_light_game():
+    return render_template("traffic-light.html")
+
+@app.route("/game/debugging")
+def debugging_game():
+    return render_template("debugging-game.html")
+
 @app.route("/game/grades-dashboard")
 def grades_dashboard_game():
     if 'user_id' not in session:

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,18 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Poppins', sans-serif; background-color: #050505; color: white; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #050505;
+      color: white;
+    }
+
     .glass-container {
       background: rgba(10, 10, 20, 0.4);
       backdrop-filter: blur(15px);
       border: 1px solid rgba(138, 43, 226, 0.2);
     }
+
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -20,6 +27,7 @@
       max-width: 400px;
       margin: 0 auto;
     }
+
     .day-box {
       aspect-ratio: 1/1;
       border-radius: 4px;
@@ -32,9 +40,11 @@
       color: #444;
       cursor: default;
     }
+
     .day-box.active-day {
       color: #eee;
     }
+
     .day-box:hover:not(.empty-day)::after {
       content: attr(data-date);
       position: absolute;
@@ -49,34 +59,62 @@
       z-index: 20;
       color: white;
     }
+
     /* Contribution Levels */
-    .level-1 { background-color: #39d353; opacity: 0.3; color: black !important; }
-    .level-2 { background-color: #39d353; opacity: 0.5; color: black !important; }
-    .level-3 { background-color: #39d353; opacity: 0.7; color: black !important; }
-    .level-4 { background-color: #39d353; opacity: 1; color: black !important; }
-    
-    .empty-day { background: transparent; cursor: default; }
+    .level-1 {
+      background-color: #39d353;
+      opacity: 0.3;
+      color: black !important;
+    }
+
+    .level-2 {
+      background-color: #39d353;
+      opacity: 0.5;
+      color: black !important;
+    }
+
+    .level-3 {
+      background-color: #39d353;
+      opacity: 0.7;
+      color: black !important;
+    }
+
+    .level-4 {
+      background-color: #39d353;
+      opacity: 1;
+      color: black !important;
+    }
+
+    .empty-day {
+      background: transparent;
+      cursor: default;
+    }
   </style>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/robot-assistant.css') }}">
   <script src="{{ url_for('static', filename='js/robot-assistant.js') }}"></script>
 </head>
+
 <body class="p-4 md:p-8">
   <div class="max-w-6xl mx-auto space-y-8">
-    
+
     <!-- Profile Header -->
     <header class="glass-container p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-4">
-        <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-[#9370DB] to-[#8A2BE2] flex items-center justify-center text-2xl font-bold">
+        <div
+          class="w-16 h-16 rounded-full bg-gradient-to-tr from-[#9370DB] to-[#8A2BE2] flex items-center justify-center text-2xl font-bold">
           {{ user['name'][0].upper() }}
         </div>
         <div>
           <h1 class="text-2xl font-bold">{{ user['name'] }}</h1>
-          <p class="text-gray-400 font-mono">ID: {{ user['game_id'] }} | <span class="text-purple-400">{{ user['difficulty'] }}</span></p>
+          <p class="text-gray-400 font-mono">ID: {{ user['game_id'] }} | <span class="text-purple-400">{{
+              user['difficulty'] }}</span></p>
         </div>
       </div>
       <div class="flex gap-4">
-        <a href="#combat-arenas" class="px-6 py-2 rounded-lg bg-[#8A2BE2] font-bold hover:bg-[#9370DB] transition-colors">JOIN COMBAT</a>
-        <a href="/logout" class="px-6 py-2 rounded-lg border border-red-500/50 text-red-500 hover:bg-red-500/10 transition-colors">LOGOUT</a>
+        <a href="#combat-arenas"
+          class="px-6 py-2 rounded-lg bg-[#8A2BE2] font-bold hover:bg-[#9370DB] transition-colors">JOIN COMBAT</a>
+        <a href="/logout"
+          class="px-6 py-2 rounded-lg border border-red-500/50 text-red-500 hover:bg-red-500/10 transition-colors">LOGOUT</a>
       </div>
     </header>
 
@@ -91,8 +129,15 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-7 gap-2 max-w-md mx-auto mb-2 text-center text-xs font-bold text-gray-500 uppercase tracking-tighter">
-        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+      <div
+        class="grid grid-cols-7 gap-2 max-w-md mx-auto mb-2 text-center text-xs font-bold text-gray-500 uppercase tracking-tighter">
+        <div>Sun</div>
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
       </div>
       <div class="calendar-grid" id="calendar-grid">
         <!-- Day boxes will be injected here -->
@@ -134,13 +179,13 @@
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        
+
 
 
 
         <div class="glass-container p-6 rounded-xl shadow-lg hover:shadow-[#9370DB]/30
                     transition-all duration-300 transform hover:scale-105 cursor-pointer"
-             onclick="selectGame('coding-arena')">
+          onclick="selectGame('coding-arena')">
           <h2 class="text-2xl font-semibold mb-2 text-[#9370DB]">
             Coding Arena
           </h2>
@@ -151,7 +196,7 @@
 
         <div class="glass-container p-6 rounded-xl shadow-lg hover:shadow-[#9370DB]/30
                     transition-all duration-300 transform hover:scale-105 cursor-pointer"
-             onclick="selectGame('grades-dashboard')">
+          onclick="selectGame('grades-dashboard')">
           <h2 class="text-2xl font-semibold mb-2 text-[#9370DB]">
             Grade Quests
           </h2>
@@ -179,20 +224,20 @@
       window.location.href = "/game/" + game;
     }
 
-    const activityData = {{ activity_data | tojson }};
+    const activityData = {{ activity_data | tojson | safe }};
     const grid = document.getElementById('calendar-grid');
     const monthDisplay = document.getElementById('month-display');
-    
+
     let currentViewDate = new Date(); // Start at current month
 
     function renderCalendar(date) {
       grid.innerHTML = '';
       const year = date.getFullYear();
       const month = date.getMonth();
-      
+
       const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"];
-      
+
       monthDisplay.innerText = `${monthNames[month]} ${year}`;
 
       // First day of month and total days
@@ -210,7 +255,7 @@
       for (let day = 1; day <= daysInMonth; day++) {
         // Create date string in YYYY-MM-DD format manually to avoid timezone issues
         const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        
+
         const count = activityData[dateString] || 0;
         const box = document.createElement('div');
         box.className = 'day-box active-day';
@@ -223,7 +268,7 @@
           else if (count >= 3) box.classList.add('level-2');
           else box.classList.add('level-1');
         }
-        
+
         grid.appendChild(box);
       }
     }
@@ -250,4 +295,5 @@
     initStats();
   </script>
 </body>
+
 </html>

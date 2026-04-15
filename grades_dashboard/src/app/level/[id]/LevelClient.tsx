@@ -16,7 +16,7 @@ export default function LevelPage() {
   const levelId = Array.isArray(rawLevelId) ? rawLevelId[0] ?? "" : rawLevelId ?? "";
   const router = useRouter();
   const { completeLevel } = useProgress();
-  
+
   if (!levelId) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
@@ -26,7 +26,7 @@ export default function LevelPage() {
   }
 
   const [phase, setPhase] = useState("theory"); // 'theory' | 'game' | 'completed'
-  
+
   const levelInfo = (LEVEL_DATA as any)[levelId] || {
     classId: levelId.split("-")[0],
     title: "Generic Level",
@@ -56,6 +56,14 @@ export default function LevelPage() {
       window.location.href = "/game/variables-lab";
       return;
     }
+    if (levelInfo.gameInfo === "TrafficGame") {
+      window.location.href = "/game/traffic-light";
+      return;
+    }
+    if (levelInfo.gameInfo === "DebugGame") {
+      window.location.href = "/game/debugging";
+      return;
+    }
     setPhase("game");
   };
 
@@ -70,7 +78,7 @@ export default function LevelPage() {
 
   return (
     <div className="min-h-screen relative p-4 md:p-8 flex items-center justify-center">
-      <button 
+      <button
         onClick={handleReturnToMap}
         className="absolute top-8 left-8 z-50 flex items-center gap-2 text-slate-400 hover:text-white transition-colors bg-slate-900/80 py-2 px-4 rounded-full border border-slate-700/50 backdrop-blur-md"
       >
@@ -78,7 +86,7 @@ export default function LevelPage() {
       </button>
 
       {phase === "theory" && (
-        <TheoryCard 
+        <TheoryCard
           title={levelInfo.title}
           explanation={levelInfo.explanation}
           example={levelInfo.example}
@@ -88,10 +96,10 @@ export default function LevelPage() {
 
       {phase === "game" && (
         <div className="w-full max-w-5xl h-[80vh] min-h-[600px] glass-panel rounded-3xl overflow-hidden relative">
-          <PhaserGame 
-            gameId={levelInfo.gameInfo} 
+          <PhaserGame
+            gameId={levelInfo.gameInfo}
             levelId={levelId}
-            onComplete={handleGameComplete} 
+            onComplete={handleGameComplete}
           />
         </div>
       )}
@@ -101,7 +109,7 @@ export default function LevelPage() {
           <div className="text-6xl mb-6">🎉⭐🎉</div>
           <h2 className="text-4xl font-bold text-white mb-4">Level Cleared!</h2>
           <p className="text-slate-300 mb-8">You successfully mastered this concept.</p>
-          <button 
+          <button
             onClick={handleReturnToMap}
             className="w-full bg-green-500 hover:bg-green-400 text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 transition-all font-xl"
           >

@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
             questionHTML: `<h2>The number is: <span class="number-display">6</span></h2>
                            <p>Will Froggy jump?</p>
                            <div class="btn-group">
-                               <button id="btn-yes" class="btn success">YES ✅</button>
-                               <button id="btn-no" class="btn danger">NO ❌</button>
+                               <button id="btn-yes" class="btn success">YES</button>
+                               <button id="btn-no" class="btn danger">NO</button>
                            </div>`,
             codeSnippet: `let number = 6;
 
@@ -353,7 +353,7 @@ console.log("Froggy ate " + fliesEaten + " flies!");`,
     // Make handleCorrectAnswer and handleIncorrectAnswer generic
     function handleCorrectAnswer() {
         // animate jump (or eating for loop level)
-        ui.frog.src = '/static/assets/frog-jump.jpg'; // Switch sprite
+        ui.frog.src = '/static/assets/frog-jump.png'; // Switch sprite
         ui.frog.classList.add('jump-animation');
 
         playSound('happy');
