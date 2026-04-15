@@ -108,6 +108,11 @@ function checkOrder() {
                     localStorage.setItem("codeArena_progress", JSON.stringify(progress));
                 }
             }
+
+            // Redirect to Routine Game (Level 6-2) after a short delay
+            setTimeout(() => {
+                window.location.href = "/grades/level/6-2";
+            }, 3000);
         } catch (e) {
             console.error(e);
         }
