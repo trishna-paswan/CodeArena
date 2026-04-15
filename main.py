@@ -1,10 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory, abort
-import sqlite3
-from datetime import datetime
 import os
 import shutil
 import tempfile
+import sqlite3
+import psycopg2
+from psycopg2 import extras
+from datetime import datetime
 from flask_cors import CORS
+from dotenv import load_dotenv
+
+# Load environment variables from .env file for local development
+load_dotenv()
 
 
 
@@ -19,6 +25,9 @@ LEGACY_DB_PATH = os.path.join(BASE_DIR, 'CodeArena_app', 'database.db')
 RUNTIME_DATA_ROOT = tempfile.gettempdir()
 DATA_DIR = os.path.join(RUNTIME_DATA_ROOT, 'CodeArena')
 DB_PATH = os.path.join(DATA_DIR, 'database.db')
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+IS_HEROKU_OR_RENDER = 'RENDER' in os.environ or 'DATABASE_URL' in os.environ
 
 
 def quarantine_sqlite_files(db_path):
@@ -57,21 +66,65 @@ def prepare_database():
         shutil.copy2(LEGACY_DB_PATH, DB_PATH)
 
 def get_db_connection():
-    conn = sqlite3.connect(DB_PATH, timeout=5)
-    conn.row_factory = sqlite3.Row
-    return conn
+    if DATABASE_URL:
+        # PostgreSQL (Supabase/Render)
+        conn = psycopg2.connect(DATABASE_URL)
+        # Add a placeholder for row_factory behavior
+        # In psycopg2, we use RealDictCursor for user['key'] access
+        return conn
+    else:
+        # SQLite (Local Fallback)
+        conn = sqlite3.connect(DB_PATH, timeout=5)
+        conn.row_factory = sqlite3.Row
+        return conn
+
+def get_db_cursor(conn):
+    if DATABASE_URL:
+        return conn.cursor(cursor_factory=extras.RealDictCursor)
+    else:
+        return conn.cursor()
+
+def execute_query(conn, query, params=()):
+    # Convert ? to %s for PostgreSQL
+    if DATABASE_URL:
+        query = query.replace('?', '%s')
+        # Handle some SQLite specific syntax translations if necessary
+        query = query.replace('INSERT OR IGNORE', 'INSERT')
+        if 'INSERT' in query and 'activity' in query and 'ON CONFLICT' not in query:
+             query += ' ON CONFLICT (user_id, activity_date) DO NOTHING'
+    
+    cur = get_db_cursor(conn)
+    cur.execute(query, params)
+    return cur
 
 def init_db():
     conn = get_db_connection()
+    cur = get_db_cursor(conn)
+    
     # Ensure the 'difficulty' column exists if the table exists
     try:
-        columns = [row['name'] for row in conn.execute("PRAGMA table_info(users)").fetchall()]
-        if columns and 'difficulty' not in columns:
-            conn.execute("ALTER TABLE users ADD COLUMN difficulty TEXT DEFAULT 'Beginner'")
-    except sqlite3.OperationalError:
+        if DATABASE_URL:
+            # PostgreSQL check
+            cur.execute("SELECT column_name FROM information_schema.columns WHERE table_name='users' AND column_name='difficulty'")
+            if not cur.fetchone():
+                cur.execute("ALTER TABLE users ADD COLUMN difficulty TEXT DEFAULT 'Beginner'")
+        else:
+            # SQLite check
+            columns = [row['name'] for row in cur.execute("PRAGMA table_info(users)").fetchall()]
+            if columns and 'difficulty' not in columns:
+                cur.execute("ALTER TABLE users ADD COLUMN difficulty TEXT DEFAULT 'Beginner'")
+    except (sqlite3.OperationalError, psycopg2.Error):
         pass # Table might not exist yet
     
-    conn.execute('''
+    users_table = '''
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            game_id TEXT NOT NULL UNIQUE,
+            difficulty TEXT NOT NULL DEFAULT 'Beginner',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''' if DATABASE_URL else '''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
@@ -79,8 +132,18 @@ def init_db():
             difficulty TEXT NOT NULL DEFAULT 'Beginner',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-    ''')
-    conn.execute('''
+    '''
+    
+    activity_table = '''
+        CREATE TABLE IF NOT EXISTS activity (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER,
+            activity_date DATE DEFAULT CURRENT_DATE,
+            count INTEGER DEFAULT 1,
+            FOREIGN KEY (user_id) REFERENCES users (id),
+            UNIQUE(user_id, activity_date)
+        )
+    ''' if DATABASE_URL else '''
         CREATE TABLE IF NOT EXISTS activity (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
@@ -89,8 +152,12 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users (id),
             UNIQUE(user_id, activity_date)
         )
-    ''')
+    '''
+    
+    cur.execute(users_table)
+    cur.execute(activity_table)
     conn.commit()
+    cur.close()
     conn.close()
 
 prepare_database()
@@ -120,9 +187,16 @@ def setup():
         
         conn = get_db_connection()
         try:
-            cur = conn.execute('INSERT INTO users (name, game_id, difficulty) VALUES (?, ?, ?)', 
+            cur = execute_query(conn, 'INSERT INTO users (name, game_id, difficulty) VALUES (?, ?, ?)', 
                                (name, game_id, difficulty))
-            user_id = cur.lastrowid
+            
+            # Get the last row ID
+            if DATABASE_URL:
+                 cur.execute("SELECT id FROM users WHERE game_id = %s", (game_id,))
+                 user_id = cur.fetchone()['id']
+            else:
+                 user_id = cur.lastrowid
+            
             conn.commit()
             session['user_id'] = user_id
             session['name'] = name
@@ -130,11 +204,11 @@ def setup():
             
             # Log initial activity
             today = datetime.now().strftime('%Y-%m-%d')
-            conn.execute('INSERT OR IGNORE INTO activity (user_id, activity_date, count) VALUES (?, ?, 1)', (user_id, today))
+            execute_query(conn, 'INSERT OR IGNORE INTO activity (user_id, activity_date, count) VALUES (?, ?, 1)', (user_id, today))
             conn.commit()
             
             return redirect(url_for('dashboard'))
-        except sqlite3.IntegrityError:
+        except (sqlite3.IntegrityError, psycopg2.IntegrityError):
             return render_template("user_details.html", error="Game ID already exists. Please choose another one or log in.")
         finally:
             conn.close()
@@ -150,7 +224,8 @@ def login():
         game_id = request.form.get('game_id')
         
         conn = get_db_connection()
-        user = conn.execute('SELECT * FROM users WHERE game_id = ?', (game_id,)).fetchone()
+        cur = execute_query(conn, 'SELECT * FROM users WHERE game_id = ?', (game_id,))
+        user = cur.fetchone()
         
         if user:
             session['user_id'] = user['id']
@@ -159,10 +234,10 @@ def login():
             
             # Log activity for login
             today = datetime.now().strftime('%Y-%m-%d')
-            conn.execute('''
+            execute_query(conn, '''
                 INSERT INTO activity (user_id, activity_date, count) 
                 VALUES (?, ?, 1)
-                ON CONFLICT(user_id, activity_date) DO UPDATE SET count = count + 1
+                ON CONFLICT(user_id, activity_date) DO UPDATE SET count = activity.count + 1
             ''', (user['id'], today))
             conn.commit()
             conn.close()
@@ -180,14 +255,16 @@ def dashboard():
     
     user_id = session['user_id']
     conn = get_db_connection()
-    user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+    cur = execute_query(conn, 'SELECT * FROM users WHERE id = ?', (user_id,))
+    user = cur.fetchone()
     
     if not user:
         conn.close()
         session.clear()
         return redirect(url_for('setup'))
 
-    activities = conn.execute('SELECT activity_date, count FROM activity WHERE user_id = ?', (user_id,)).fetchall()
+    cur = execute_query(conn, 'SELECT activity_date, count FROM activity WHERE user_id = ?', (user_id,))
+    activities = cur.fetchall()
     conn.close()
     
     # Convert activities to a dictionary for easier access in JS
@@ -204,10 +281,10 @@ def games():
     user_id = session['user_id']
     today = datetime.now().strftime('%Y-%m-%d')
     conn = get_db_connection()
-    conn.execute('''
+    execute_query(conn, '''
         INSERT INTO activity (user_id, activity_date, count) 
         VALUES (?, ?, 1)
-        ON CONFLICT(user_id, activity_date) DO UPDATE SET count = count + 1
+        ON CONFLICT(user_id, activity_date) DO UPDATE SET count = activity.count + 1
     ''', (user_id, today))
     conn.commit()
     conn.close()
